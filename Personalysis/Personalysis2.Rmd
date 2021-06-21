@@ -1,0 +1,449 @@
+---
+title: " "
+author: ""
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    css: ['css/style.css', 'css/custom.css']
+    df_print: paged
+    highlight: tango
+    includes:
+      before_body: www/header.html
+    number_sections: no
+    theme: spacelab
+    toc: yes
+    toc_depth: 5
+    toc_float:
+      collapsed: no
+      smooth_scroll: yes
+params:
+  primaryInput: "0"
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(collapsibleTree)
+library(htmlwidgets)
+library(ggplot2)
+library(dplyr)
+library(tidyr)
+library(readxl)
+
+set.seed(123)
+
+Personalysis <- read_excel("C:/Users/tfrench/Desktop/R projects/Personalysis/Data/Personalysis.xlsx")
+Strength_desc<- read_excel("C:/Users/tfrench/Desktop/R projects/Personalysis/Data/Strengths Abreviated.xlsx")
+Personalysis <- merge(Personalysis, Strength_desc, all.x=TRUE)
+Personalysis$Name_abbr <- substr(Personalysis$Name, 1, unlist(gregexpr(" ",Personalysis$Name)) + 1)
+respondents   <- unique(Personalysis$Name)
+images       <- data.frame(file=c(list.files("/Users/tfrench/Desktop/R projects/Personalysis/images/")))
+#images       <- dplyr::filter(images, grepl("personalysis01_", file))
+images       <- dplyr::filter(images, grepl("personalysis_", file))
+images$file  <- substring(images$file, 14)
+images$name  <- substring(images$file, 1, nchar(images$file)-4)
+```
+
+
+```{r cluster, include=FALSE}
+# Cluster Personalysis scores
+#===========================================
+# subset to single record per responsent with personalysis coded results
+test  <- Personalysis %>% filter(n==1) 
+lvl   <- list('Cont ', 'Conn ', 'Comm ')
+
+test$all_commit_cluster <- as.character(kmeans(subset(test,select=c(r3,b3,g3,y3)), centers=4, nstart = 25)$cluster)
+test$all_commit_Label   <- test$Name
+
+  for (clr in c('b','g','r','y')){
+  # Kmeans Clustering for each color [r.Expedite, g.Organize, b.Explore, y.Collaborate]
+    eval(parse(text = paste0(' test$',clr,'_cluster <- kmeans(subset(test,select=c(',clr,'1,',clr,'2,',clr,'3)), centers=4, nstart = 25)$cluster')))
+  # Get mean values for use in labels for COLLAPSED
+   # eval(parse(text = paste0(' test$',clr,'_mean <- round(ave(test$',clr,'1,test$',clr,'2,test$',clr,'3),1)')))
+    eval(parse(text = paste0(' test$',clr,'_mean <- round( (test$',clr,'1 + test$',clr,'2 + test$',clr,'3)/3,1)')))
+    eval(parse(text = paste0(' test$',clr,'_cluster <- paste0("COLLAPSED "',',test$',clr,'_cluster)')))
+    eval(parse(text = paste0(' test$',clr,'_Label <- paste0(test$Name," ",test$',clr,'_mean, " ")')))
+    
+    for (nbr in c('1','2','3')){
+    # Kmeans Clustering for each color by each of 3 sub-levels [1.Contribution, 2.Connection, 3.Communication ]
+      eval(parse(text = paste0(' centers <- kmeans(subset(test,select=c(',clr,nbr,')), centers=4, nstart = 25)$centers'))) # First get centers
+      eval(parse(text = paste0(' centers <- sort(centers)'))) # Use sorted centers below to manage (order) clustering output
+      eval(parse(text = paste0(' test$',clr,nbr,'_cluster <- kmeans(subset(test,select=c(',clr,nbr,')), centers=centers, nstart = 25)$cluster')))
+      eval(parse(text = paste0(' test$',clr,nbr,'_cluster <- paste0(lvl[',nbr,'],test$',clr,nbr,'_cluster)')))
+      eval(parse(text = paste0(' test$',clr,nbr,'_Label  <- paste0(test$Name," ",test$',clr,nbr,')')))
+        # Get level specific labels
+      eval(parse(text = paste0(' test$',clr,nbr,'_Label  <- paste0(test$Name," ",test$',clr,nbr,')')))
+    
+    }
+  }
+blues2   <- c(rep('#195cf7',1), rep('#86a8f7',4),rep('#dde2f0',length(unique(test$Name)))) 
+greens2  <- c(rep('#12a608',1), rep('#8efa87',4),rep('#e2fae1',length(unique(test$Name)))) 
+reds2    <- c(rep('#fc032c',1), rep('#f08d9f',4),rep('#f2e1e4',length(unique(test$Name)))) 
+yellows2 <- c(rep('#DAA520',1), rep('#FFD700',4),rep('#FFFACD',length(unique(test$Name)))) 
+
+```
+
+**Personalysis and Strength Finder Analytics for the PSJH Clinical Analytics Team**
+
+**Update: ** `r format(Sys.time(), '%d %B, %Y')` (T. French)  
+  
+# &nbsp;**Personalysis** {.tabset  .tabset-fade }  
+&nbsp;&nbsp;&nbsp;&nbsp;![](/Users/tfrench/Desktop/R projects/Personalysis/images/Dimensions.gif)
+<BR><BR>
+
+  
+# &nbsp;&nbsp;Personalysis Profiles {.tabset  .tabset-fade }
+  
+  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Respondents:** `r #sort(respondents)` &nbsp;(**n=`r length(unique(respondents))`**)
+  
+
+
+```{r echo = FALSE, results ='asis'}
+# Generate TABS with links to every respndent's Personlaysis image.
+for(i in 1:length(images$file)){
+  cat('\n##', images$name[i], '\n')
+  cat('\n')
+  #cat(paste0('![](/Users/tfrench/Desktop/R projects/Personalysis/images/personalysis01_',images$file[i],')'))
+  cat(paste0('![](/Users/tfrench/Desktop/R projects/Personalysis/images/personalysis_',images$file[i],'){width=80%}'))
+  cat('\n  \n  \n  ')
+}
+```
+
+
+## Others  
+  
+
+![](/Users/tfrench/Desktop/R projects/Personalysis/images/working on it.gif)  
+
+  
+
+---------------------------------------------------------------------------------------
+ 
+
+
+# &nbsp;&nbsp;Personalysis Clustering {.tabset  .tabset-fade }   
+ Clustering is a simple unsupervised learning technique that seeks to **cluster caregivers** into homogeneous or similar subgroups (4) based on a combination of Personalysis _dimension_ and _color_ response scores.
+
+## <span style="color:darkred;">**Red** (Expedite)</span> {.tabset  .tabset-fade }  
+
+  
+<div id="Red Contribution" class="section level3">  
+  
+![](/Users/tfrench/Desktop/R projects/Personalysis/images/r1r0r0b0b0b0g0g0g0y0y0y0.png)
+**&nbsp; &nbsp; Foward focused &nbsp;- &nbsp;  Fast &nbsp;- &nbsp; Initiate & Implement **
+  
+     
+  
+###  <span style="color:darkred;">Contribution</span>  
+```{r, fig.height = 6, echo=FALSE}
+collapsibleTree(test %>% arrange(r1_cluster, r1_Label), c("r1_cluster","r1_Label"), collapsed = F, root="Contribution ",fontSize=14, zoomable = FALSE, fill= reds2, nodeSize = "r1")
+```  
+  
+</div>
+
+
+
+<div id="Red Connection" class="section level3">
+  
+![](/Users/tfrench/Desktop/R projects/Personalysis/images/r0r2r0b0b0b0g0g0g0y0y0y0.png)
+**&nbsp; &nbsp; Foward focused &nbsp;- &nbsp;  Fast &nbsp;- &nbsp; Direct**  
+
+###  <span style="color:darkred;">Connection</span>  
+
+ 
+```{r Red Connection, fig.height = 7, echo=FALSE}
+collapsibleTree(test %>% arrange(r2_cluster, r2_Label), c("r2_cluster","r2_Label"), collapsed = F, root=" Connection ",fontSize=14, zoomable = FALSE, fill= reds2, nodeSize = "r2")
+```  
+</div>
+
+<div id="Red Commitment" class="section level3">
+   
+![](/Users/tfrench/Desktop/R projects/Personalysis/images/r0r0r3b0b0b0g0g0g0y0y0y0.png)
+**&nbsp; &nbsp; Foward focused &nbsp;- &nbsp;  Fast &nbsp;- &nbsp; Target task** 
+
+
+###  <span style="color:darkred;">Commitment</span>  
+
+ 
+```{r Red Commitment, fig.height = 7, echo=FALSE}
+collapsibleTree(test %>% arrange(r3_cluster, r3_Label), c("r3_cluster","r3_Label"), collapsed = F, root="Commitment ",fontSize=14, zoomable = FALSE, fill= reds2, nodeSize = "r3")
+```   
+</div>
+  
+<div id="Red - COLLAPSED" class="section level3">
+  
+![](/Users/tfrench/Desktop/R projects/Personalysis/images/r1r2r3b0b0b0g0g0g0y0y0y0.png) **&nbsp; &nbsp; Foward focused &nbsp;- &nbsp;  Fast &nbsp;- &nbsp; [Collapsed]** 
+ 
+
+###  <span style="color:darkred;">COLLAPSED </span><span style="color:darkgrey;">(All categories)</span>  
+```{r Red COLLAPSED (Red), fig.height = 7, echo=FALSE}  
+collapsibleTree(test %>% arrange(r_cluster, r_Label, r_mean), c("r_cluster","r_Label"), collapsed = F, root="COLLAPSED ",fontSize=14, zoomable = FALSE, fill= reds2, nodeSize = "r_mean")
+``` 
+</div>
+  
+  <div id="Red - COLLAPSED2" class="section level3">
+   
+![](/Users/tfrench/Desktop/R projects/Personalysis/images/r0r0r3b0b0b3g0g0g3y0y0y3.png)  **&nbsp; &nbsp; Foward focused &nbsp;- &nbsp;  Fast &nbsp;- &nbsp; [Commit: Collapsed Colors]** 
+ 
+
+###  <span style="color:darkred;">COLLAPSED</span>  <span style="color:darkgrey;">(All colors, Commit)</span>  
+```{r Red COLLAPSED (Commit), fig.height = 7, echo=FALSE}  
+collapsibleTree(test %>% arrange(test$all_commit_cluster, test$all_commit_Label), c("all_commit_cluster","all_commit_Label"), collapsed = F, root="COLLAPSED ",fontSize=14, zoomable = FALSE)
+``` 
+</div>
+  
+
+--------------------------------------------------------------------
+
+
+
+## <span style="color:#195cf7;">**Blue** (Expore)</span> {.tabset  .tabset-fade }  
+
+  **&nbsp; &nbsp; Anticipate  &nbsp; &nbsp; &nbsp;    Create clarity**.  
+
+<div id="blue - COLLAPSED" class="section level3">
+Clustering among the following groups (names with avg. scores below)  
+![](/Users/tfrench/Desktop/R projects/Personalysis/images/r0r0r0b1b2b3g0g0g0y0y0y0.png)  
+ 
+###  <span style="color:darkblue;">COLLAPSED</span>  
+  
+```{r blue COLLAPSED, fig.height = 7, echo=FALSE}
+collapsibleTree(test %>% arrange(b_cluster, b_Label), c("b_cluster","b_Label"), collapsed = F, root="COLLAPSED ",fontSize=14, zoomable = FALSE, fill= blues2, nodeSize = "b_mean")
+``` 
+</div>
+
+<div id="blue Contribution" class="section level3">
+Clustering among the following groups (names with scores below)  
+
+<span style="color:blue;">**Innovate & Explore** </span>  
+
+![](/Users/tfrench/Desktop/R projects/Personalysis/images/r0r0r0b1b0b0g0g0g0y0y0y0.png)  
+
+###  <span style="color:darkblue;">Contribution</span>  
+
+```{r blue Contribution, fig.height = 7, echo=FALSE}
+collapsibleTree(test %>% arrange(b1_cluster, b1_Label), c("b1_cluster","b1_Label"), collapsed = F, root="Contribution ",fontSize=14, zoomable = FALSE, fill= blues2, nodeSize = "b1")
+```  
+</div>
+
+<div id="blue Connection" class="section level3">
+Clustering among the following groups (names with scores below)  
+
+<span style="color:blue;">**Inquisitive & Clarifying** </span>  
+
+![](/Users/tfrench/Desktop/R projects/Personalysis/images/r0r0r0b0b2b0g0g0g0y0y0y0.png) 
+
+###  <span style="color:darkblue;">Connection</span>  
+
+```{r blue Connection, fig.height = 7, echo=FALSE}
+collapsibleTree(test %>% arrange(b2_cluster, b2_Label), c("b2_cluster","b2_Label"), collapsed = F, root=" Connection ",fontSize=14, zoomable = FALSE, fill= blues2, nodeSize = "b2")
+```  
+</div>
+
+<div id="blue Commitment" class="section level3">
+Clustering among the following groups (names with scores below)  
+
+<span style="color:blue;">**Purpose & Context** </span>  
+  
+![](/Users/tfrench/Desktop/R projects/Personalysis/images/r0r0r0b0b0b3g0g0g0y0y0y0.png) 
+
+###<span style="color:darkblue;">Commitment</span>  
+
+```{r blue Commitment, fig.height = 7, echo=FALSE}
+collapsibleTree(test %>% arrange(b3_cluster, b3_Label), c("b3_cluster","b3_Label"), collapsed = F, root="Commitment ",fontSize=14, zoomable = FALSE, fill= blues2, nodeSize = "b3")
+```   
+</div>
+
+
+--------------------------------------------------------------------
+
+
+
+## <span style="color:green;">**Green** (Organize)</span> {.tabset  .tabset-fade }
+
+ **&nbsp; &nbsp; Maintain stability &nbsp; &nbsp; &nbsp;    Organization**. 
+
+
+<div id="green - COLLAPSED" class="section level3">
+Clustering among the following groups (names with avg. scores below)  
+![](/Users/tfrench/Desktop/R projects/Personalysis/images/r0r0r0b0b0b0g1g2g3y0y0y0.png) 
+
+###  <span style="color:darkgreen;">COLLAPSED</span> 
+
+```{r green COLLAPSED, fig.height = 7, echo=FALSE}
+collapsibleTree(test %>% arrange(g_cluster, g_Label), c("g_cluster","g_Label"), collapsed = F, root="COLLAPSED ",fontSize=14, zoomable = FALSE, fill= greens2, nodeSize = "g_mean")
+``` 
+</div>
+
+<div id="green Contribution" class="section level3">
+Clustering among the following groups (names with scores below)  
+
+<span style="color:green;">**Organize & Replicate** </span>  
+  
+![](/Users/tfrench/Desktop/R projects/Personalysis/images/r0r0r0b0b0b0g1g0g0y0y0y0.png) 
+
+###  <span style="color:darkgreen;">Contribution</span> 
+
+```{r green Contribution, fig.height = 7, echo=FALSE}
+collapsibleTree(test %>% arrange(g1_cluster, g1_Label), c("g1_cluster","g1_Label"), collapsed = F, root="Contribution ",fontSize=14, zoomable = FALSE, fill= greens2, nodeSize = "g1")
+```  
+</div>
+
+<div id="green Connection" class="section level3">
+Clustering among the following groups (names with scores below)  
+
+<span style="color:green;">**Specific & Confirming** </span> 
+
+![](/Users/tfrench/Desktop/R projects/Personalysis/images/r0r0r0b0b0b0g0g2g0y0y0y0.png) 
+
+###  <span style="color:darkgreen;">Connection</span> 
+
+```{r green Connection, fig.height = 7, echo=FALSE}
+collapsibleTree(test %>% arrange(g2_cluster, g2_Label), c("g2_cluster","g2_Label"), collapsed = F, root=" Connection ",fontSize=14, zoomable = FALSE, fill= greens2, nodeSize = "g2")
+```  
+</div>
+
+<div id="green Commitment" class="section level3">
+Clustering among the following groups (names with scores below)  
+
+<span style="color:green;">**Predictability & Process** </span> 
+
+![](/Users/tfrench/Desktop/R projects/Personalysis/images/r0r0r0b0b0b0g0g0g3y0y0y0.png) 
+
+###  <span style="color:darkgreen;">Commitment</span> 
+
+```{r green Commitment, fig.height = 7, echo=FALSE}
+collapsibleTree(test %>% arrange(g3_cluster, g3_Label), c("g3_cluster","g3_Label"), collapsed = F, root="Commitment ",fontSize=14, zoomable = FALSE, fill= greens2, nodeSize = "g3")
+```   
+</div>
+
+
+--------------------------------------------------------------------
+
+
+## <span style="color:GoldenRod;">**Yellow** (Collaborate)</span> {.tabset  .tabset-fade } 
+
+ **&nbsp; &nbsp; Adapt &nbsp; &nbsp; &nbsp;    Flexible**.  
+
+
+<div id="yellow - COLLAPSED" class="section level3">
+Clustering among the following groups (names with avg. scores below)  
+![](/Users/tfrench/Desktop/R projects/Personalysis/images/r0r0r0b0b0b0g0g0g0y1y2y3.png) 
+
+###  <span style="color:GoldenRod;">COLLAPSED</span> 
+```{r yellow COLLAPSED, fig.height = 7, echo=FALSE}
+yellows2 <- c(rep('#DAA520',1), rep('#FFD700',4),rep('#FFFACD',length(unique(test$Name)))) 
+collapsibleTree(test %>% arrange(y_cluster, y_Label), c("y_cluster","y_Label"), collapsed = F, root="COLLAPSED ",fontSize=14, zoomable = FALSE, fill= yellows2, nodeSize = "y_mean")
+``` 
+</div>
+
+<div id="yellow Contribution" class="section level3">
+Clustering among the following groups (names with scores below)  
+
+<span style="color:GoldenRod;">**Serve & Support** </span> 
+
+
+![](/Users/tfrench/Desktop/R projects/Personalysis/images/r0r0r0b0b0b0g0g0g0y1y0y0.png) 
+
+###  <span style="color:GoldenRod;">Contribution</span> 
+
+```{r yellow Contribution, fig.height = 7, echo=FALSE}
+collapsibleTree(test %>% arrange(y1_cluster, y1_Label), c("y1_cluster","y1_Label"), collapsed = F, root="Contribution ",fontSize=14, zoomable = FALSE, fill= yellows2, nodeSize = "y1")
+```  
+</div>
+
+<div id="yellow Connection" class="section level3">
+Clustering among the following groups (names with scores below)  
+
+<span style="color:GoldenRod;">**Diplomatic & General** </span>  
+
+![](/Users/tfrench/Desktop/R projects/Personalysis/images/r0r0r0b0b0b0g0g0g0y0y2y0.png) 
+
+###  <span style="color:GoldenRod;">Connection</span> 
+ 
+```{r yellow Connection, fig.height = 7, echo=FALSE}
+collapsibleTree(test %>% arrange(y2_cluster, Name), c("y2_cluster","y2_Label"), collapsed = F, root=" Connection ",fontSize=14, zoomable = FALSE, fill= yellows2, nodeSize = "y2")
+```  
+</div>
+
+<div id="yellow Commitment" class="section level3">
+Clustering among the following groups (names with scores below)  
+
+<span style="color:GoldenRod;">**Options & Opinions** </span> 
+
+![](/Users/tfrench/Desktop/R projects/Personalysis/images/r0r0r0b0b0b0g0g0g0y0y0y3.png) 
+
+###  <span style="color:GoldenRod;">Commitment</span> 
+
+```{r yellow Commitment, fig.height = 7, echo=FALSE}
+collapsibleTree(test %>% arrange(y3_cluster, y3_Label), c("y3_cluster","y3_Label"), collapsed = F, root="Commitment ",fontSize=14, zoomable = FALSE, fill= yellows2, nodeSize = "y3")
+```   
+</div>
+
+
+--------------------------------------------------------------------------------
+
+# **Clifton Strength Finder** {.tabset  .tabset-fade }
+
+
+![](/Users/tfrench/Desktop/R projects/Personalysis/images/strength_finder.gif)
+<BR><BR>
+
+  
+# &nbsp;Clifton Strength Respondents {.tabset  .tabset-fade }
+
+  
+**Respondents:** `r sort(unique(Personalysis$Name[Personalysis$Desc != 'NA']))` &nbsp;(**n=`r length(unique(Personalysis$Name[Personalysis$Desc != 'NA']))`**)
+  
+<BR><BR>
+
+# &nbsp;Clifton Strength Profiles {.tabset  .tabset-fade }
+
+## Top Five Strengths: By Responder
+
+
+ **Top Five Strengths: By Responder**
+
+```{r Clifton Strength Profile1b, echo=FALSE, fig.width = 14, out.hieght= "500px"}
+  collapsibleTree(Personalysis %>% filter(Desc != 'NA') %>% arrange(Name, Dimension), 
+                  hierarchy = c( "Name","Dimension","Desc","Desc_long"), 
+                  zoomable = FALSE, width=1000, collapsed = T, root=" "  ,fontSize=12, linkLength=100 )
+```
+
+
+## All Top Five Strengths 
+    
+
+ **All Top Five Strengths**
+```{r Clifton Strength Profile2, echo=FALSE, warning=FALSE}
+collapsibleTree(Personalysis %>% filter(Desc != 'NA') %>% arrange(Desc,Name), c("Dimension","Desc", "Name"), collapsed = F, root=" ", zoomable = FALSE  , fontSize=14 )
+```
+
+
+## All Top Five Strengths - Ordered
+
+ **All Top Five Strengths - Ordered**
+```{r Clifton Strength Profile3, echo=FALSE}
+ collapsibleTree(Personalysis %>% filter(Desc != 'NA') %>% arrange(n, Desc,Name), c("n","Desc", "Name"), collapsed = T, root=" ", zoomable = FALSE  ,fontSize=14 )
+```
+
+
+
+# Table of Results {.tabset  .tabset-fade }
+
+```{r Results Table,  echo=FALSE, message=FALSE}
+a<- Personalysis %>% select(Name, n, Desc) %>% filter(Desc !='NA') %>% tidyr::pivot_wider(names_from = n, values_from= Desc)
+
+b<- Personalysis %>% filter(n==1) %>% select(-n, -Desc) 
+c <-left_join(b,a) 
+c %>%  DT::  datatable(extensions = 'Buttons',
+                            caption = 'Table 1. List of all Respondent Peronalysis Scores and Top 5 Strength Finder Values',
+            options = list(dom = 'Bt, tp',
+                           buttons = c('copy', 'csv', 'excel'),
+                           lengthMenu = list(c(10,25,50,-1),
+                                             c(10,25,50,"All"))))
+```
+
+------------------------------------------------------------------------- 
+    

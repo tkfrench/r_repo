@@ -1,0 +1,22 @@
+knitr::opts_chunk$set(echo = TRUE)
+library(threejs)
+library(collapsibleTree)
+library(htmlwidgets)
+library(ggplot2)
+library(dplyr)
+library(tidyr)
+library(readxl)
+
+set.seed(123)
+
+Personalysis <- read_excel("C:/Users/tfrench/Desktop/R projects/r_repo/Personalysis/Data/Personalysis.xlsx")
+
+Strength_desc<- read_excel("C:/Users/tfrench/Desktop/R projects/r_repo/Personalysis/Data/Strengths Abreviated.xlsx")
+Personalysis <- merge(Personalysis, Strength_desc, all.x=TRUE)
+Personalysis$Name_abbr <- substr(Personalysis$Name, 1, unlist(gregexpr(" ",Personalysis$Name)) + 1)
+respondents   <- unique(Personalysis$Name)
+images       <- data.frame(file=c(list.files("/Users/tfrench/Desktop/R projects/r_repo/Personalysis/images/")))
+#images       <- dplyr::filter(images, grepl("personalysis01_", file))
+images       <- dplyr::filter(images, grepl("personalysis_", file))
+images$file  <- substring(images$file, 14)
+images$name  <- substring(images$file, 1, nchar(images$file)-4)

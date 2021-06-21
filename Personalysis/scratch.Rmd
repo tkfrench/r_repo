@@ -1,0 +1,342 @@
+---
+title: "Personalysis and Strength Finder Analytics for the PSJH Clinical Analytics Team"
+output:
+  html_document:
+    css: ['css/style.css', 'css/custom.css']
+    df_print: paged
+    highlight: tango
+    includes:
+      before_body: www/header.html
+    number_sections: no
+    theme: sandstone
+    toc: yes
+    toc_depth: 5
+    toc_float:
+      collapsed: no
+      smooth_scroll: yes
+params:
+  primaryInput: "0"
+---
+
+
+**Update: ** `r format(Sys.time(), '%d %B, %Y')` (T. French)  
+
+```{r, include=FALSE, code = readLines("R/Personalysis_setup.R")}
+# Load libraries
+# Initialize data
+
+```
+
+
+```{r, include=FALSE, code = readLines("R/Personalysis_cluster.R")}
+# Generate clusters
+
+```
+
+
+```{r, include=FALSE, code = readLines("R/Personalysis_3D.R")}
+# Generate clusters
+
+```
+
+# Personalysis _Profiles_ {.tabset  .tabset-fade }
+**Respondents:** `r #sort(respondents)` &nbsp;(n=`r length(unique(respondents))`)
+  
+```{r echo = FALSE, results ='asis'}
+# Generate TABS with links to every respndent's Personlaysis image.
+for(i in 1:length(images$file)){
+  cat('\n##', images$name[i], '\n')
+  cat('\n')
+  #cat(paste0('![](/Users/tfrench/Desktop/R projects/Personalysis/images/personalysis01_',images$file[i],')'))
+  cat(paste0('![](/Users/tfrench/Desktop/R projects/Personalysis/images/personalysis_',images$file[i],'){width=80%}'))
+  cat('\n  \n  \n  ')
+}
+```
+## _Others_  
+ 
+![](/Users/tfrench/Desktop/R projects/Personalysis/images/working on it.gif) 
+
+
+
+# Personalysis _Clustering_ {.tabset }
+
+ Clustering was used as a simple unsupervised learning technique seeking to **cluster caregivers** into homogeneous or similar subgroups (4) based on a combination of Personalysis _dimension_ and _color_ response scores.
+
+
+## Expedite <span style="color:red;">(Red)</span>  {.tabset}  
+
+### Contribution
+ ![](/Users/tfrench/Desktop/R projects/Personalysis/images/r1r0r0b0b0b0g0g0g0y0y0y0.png)
+```{r, fig.height = 6, echo=FALSE}
+collapsibleTree(test %>% arrange(r1_cluster, r1_Label), c("r1_cluster","r1_Label"), collapsed = F, root="Contribution ",fontSize=14, zoomable = FALSE, fill= reds2, nodeSize = "r1")
+```  
+
+
+### Connection 
+ ![](/Users/tfrench/Desktop/R projects/Personalysis/images/r0r2r0b0b0b0g0g0g0y0y0y0.png)
+```{r, fig.height = 6, echo=FALSE}
+collapsibleTree(test %>% arrange(r2_cluster, r2_Label), c("r2_cluster","r2_Label"), collapsed = F, root="Connection ",fontSize=14, zoomable = FALSE, fill= reds2, nodeSize = "r2")
+```  
+
+
+### Commitment
+![](/Users/tfrench/Desktop/R projects/Personalysis/images/r0r0r3b0b0b0g0g0g0y0y0y0.png)  
+```{r, fig.height = 6, echo=FALSE}
+collapsibleTree(test %>% arrange(r3_cluster, r3_Label), c("r3_cluster","r3_Label"), collapsed = F, root="Commitment ",fontSize=14, zoomable = FALSE, fill= reds2, nodeSize = "r3")
+```   
+
+
+
+## Explore <span style="color:blue">(Blue)</span>  {.tabset}  
+
+### Contribution
+ ![](/Users/tfrench/Desktop/R projects/Personalysis/images/r0r0r0b1b0b0g0g0g0y0y0y0.png)
+```{r, fig.height = 7, echo=FALSE}
+collapsibleTree(test %>% arrange(b1_cluster, b1_Label), c("b1_cluster","b1_Label"), collapsed = F, root="Contribution ",fontSize=14, zoomable = FALSE, fill= blues2, nodeSize = "b1")
+``` 
+### Connection 
+ ![](/Users/tfrench/Desktop/R projects/Personalysis/images/r0r0r0b0b2b0g0g0g0y0y0y0.png)
+```{r, fig.height = 7, echo=FALSE}
+collapsibleTree(test %>% arrange(b2_cluster, b2_Label), c("b2_cluster","b2_Label"), collapsed = F, root=" Connection ",fontSize=14, zoomable = FALSE, fill= blues2, nodeSize = "b2")
+``` 
+### Commitment
+![](/Users/tfrench/Desktop/R projects/Personalysis/images/r0r0r0b0b0b3g0g0g0y0y0y0.png)  
+```{r, fig.height = 7, echo=FALSE}
+collapsibleTree(test %>% arrange(b3_cluster, b3_Label), c("b3_cluster","b3_Label"), collapsed = F, root="Commitment ",fontSize=14, zoomable = FALSE, fill= blues2, nodeSize = "b3")
+```  
+  
+
+
+
+
+
+
+# Personalysis _Teams_ {.tabset}
+
+Below are **3 dimensional team views** of all CA care givers with specific individuals called out for selected team.  All care givers are clustered as well. 
+
+
+## Adv. Analytics {.tabset}
+
+### Expedite <span style="color:red;">(Red)</span>
+
+ ![](/Users/tfrench/Desktop/R projects/Personalysis/images/r1r2r3b0b0b0g0g0g0y0y0y0.png)
+
+
+```{r echo = FALSE}
+
+ scatterplot3js(r_mdat, 
+                bg = "#000000", grid = TRUE,  pch = "o", stroke = "gray", size=1,
+                xlim=c(0,6), ylim=c(0,6), zlim=c(0,6), flip.y = FALSE,
+                color=c( r_colors2)) %>%
+              points3d(vertices(.), color="white", pch = Adv_analytics_label, size=.20)  %>%
+              lines3d(c(Adv_analytics_ndx),c(Adv_analytics_ndx2), col = "gray", lwd = 1)
+```
+  Clusters: ![](/Users/tfrench/Desktop/R projects/Personalysis/images/color_map.png)
+  
+
+### Explore <span style="color:blue;">(Blue)</span> 
+
+![](/Users/tfrench/Desktop/R projects/Personalysis/images/r0r0r0b1b2b3g0g0g0y0y0y0.png) 
+  
+```{r echo = FALSE}
+ scatterplot3js(b_mdat, 
+                bg = "#000000", grid = TRUE,  pch = "o", stroke = "gray", size=1,
+                xlim=c(0,6), ylim=c(0,6), zlim=c(0,6), flip.y = FALSE,
+                color=c( b_colors2)) %>%
+              points3d(vertices(.), color="white", pch = Adv_analytics_label, size=.20)  %>%
+              lines3d(c(Adv_analytics_ndx),c(Adv_analytics_ndx2), col = "gray", lwd = 1)
+```
+  Clusters: ![](/Users/tfrench/Desktop/R projects/Personalysis/images/color_map.png)  
+  
+### Organize <span style="color:green;">(Green)</span>
+
+
+![](/Users/tfrench/Desktop/R projects/Personalysis/images/r0r0r0b0b0b0g1g2g3y0y0y0.png) 
+ 
+```{r echo = FALSE}
+ scatterplot3js(g_mdat, 
+                bg = "#000000", grid = TRUE,  pch = "o", stroke = "gray", size=1,
+                xlim=c(0,6), ylim=c(0,6), zlim=c(0,6), flip.y = FALSE,
+                color=c( g_colors2)) %>%
+              points3d(vertices(.), color="white", pch = Adv_analytics_label, size=.20)  %>%
+              lines3d(c(Adv_analytics_ndx),c(Adv_analytics_ndx2), col = "gray", lwd = 1)
+```
+  Clusters: ![](/Users/tfrench/Desktop/R projects/Personalysis/images/color_map.png)
+ 
+### Collaborate <span style="color:goldenrod;">(Yellow)</span> 
+
+![](/Users/tfrench/Desktop/R projects/Personalysis/images/r0r0r0b0b0b0g0g0g0y1y2y3.png) 
+  
+```{r echo = FALSE}
+ scatterplot3js(y_mdat, 
+                bg = "#000000",  grid = TRUE,  pch = "o", stroke = "gray", size=1,
+                xlim=c(0,6), ylim=c(0,6), zlim=c(0,6), flip.y = FALSE,
+                color=c( y_colors2)) %>%
+              points3d(vertices(.), color="white", pch = Adv_analytics_label, size=.20)  %>%
+              lines3d(c(Adv_analytics_ndx),c(Adv_analytics_ndx2), col = "gray", lwd = 1)
+```
+  Clusters: ![](/Users/tfrench/Desktop/R projects/Personalysis/images/color_map.png)  
+  
+
+
+
+
+## Executives {.tabset}
+
+### Expedite <span style="color:red;">(Red)</span>
+
+ ![](/Users/tfrench/Desktop/R projects/Personalysis/images/r1r2r3b0b0b0g0g0g0y0y0y0.png)
+
+
+```{r echo = FALSE}
+ scatterplot3js(r_mdat, main = "",
+                bg = "#000000", grid = T,  pch = "o",  stroke = "gray", size=1,
+                xlim=c(0,6), ylim=c(0,6), zlim=c(0,6),flip.y = FALSE, 
+                color=c( r_colors2)) %>%
+              points3d(vertices(.), color="white", pch = Executive_label, size=.20)  %>%
+              lines3d(c(Executive_ndx),c(Executive_ndx2), col = "gray", lwd = 1)
+```
+  Clusters: ![](/Users/tfrench/Desktop/R projects/Personalysis/images/color_map.png)
+  
+
+### Explore <span style="color:blue;">(Blue)</span> 
+
+![](/Users/tfrench/Desktop/R projects/Personalysis/images/r0r0r0b1b2b3g0g0g0y0y0y0.png) 
+  
+```{r echo = FALSE}
+ scatterplot3js(b_mdat, 
+                bg = "#000000", grid = TRUE,  pch = "o",  stroke = "gray", size=1,
+                xlim=c(0,6), ylim=c(0,6), zlim=c(0,6), flip.y = FALSE,
+                color=c( b_colors2)) %>%
+              points3d(vertices(.), color="white", pch = Executive_label, size=.20)  %>%
+              lines3d(c(Executive_ndx),c(Executive_ndx2), col = "gray", lwd = 1)
+```
+  Clusters: ![](/Users/tfrench/Desktop/R projects/Personalysis/images/color_map.png)  
+  
+### Organize <span style="color:green;">(Green)</span>
+
+
+![](/Users/tfrench/Desktop/R projects/Personalysis/images/r0r0r0b0b0b0g1g2g3y0y0y0.png) 
+ 
+```{r echo = FALSE}
+ scatterplot3js(g_mdat, 
+                bg = "#000000", grid = TRUE,  pch = "o",  stroke = "gray", size=1,
+                xlim=c(0,6), ylim=c(0,6), zlim=c(0,6), flip.y = FALSE,
+                color=c( g_colors2)) %>%
+              points3d(vertices(.), color="white", pch = Executive_label, size=.20)  %>%
+              lines3d(c(Executive_ndx),c(Executive_ndx2), col = "gray", lwd = 1)
+```
+  Clusters: ![](/Users/tfrench/Desktop/R projects/Personalysis/images/color_map.png)
+ 
+### Collaborate <span style="color:goldenrod;">(Yellow)</span> 
+
+![](/Users/tfrench/Desktop/R projects/Personalysis/images/r0r0r0b0b0b0g0g0g0y1y2y3.png) 
+  
+```{r echo = FALSE}
+ scatterplot3js(y_mdat, 
+                bg = "#000000", grid = TRUE,  pch = "o",  stroke = "gray", size=1,
+                xlim=c(0,6), ylim=c(0,6), zlim=c(0,6), flip.y = FALSE,
+                color=c( y_colors2)) %>%
+              points3d(vertices(.), color="white", pch = Executive_label, size=.20)  %>%
+              lines3d(c(Executive_ndx),c(Executive_ndx2), col = "gray", lwd = 1)
+```
+  Clusters: ![](/Users/tfrench/Desktop/R projects/Personalysis/images/color_map.png) 
+  
+  
+
+
+
+
+## CaOps, Data Eng, Adv Analytics   {.tabset}
+
+### Expedite <span style="color:red;">(Red)</span>
+
+ ![](/Users/tfrench/Desktop/R projects/Personalysis/images/r1r2r3b0b0b0g0g0g0y0y0y0.png)
+
+
+```{r echo = FALSE}
+ scatterplot3js(r_mdat, main = "",
+                bg = "#000000", grid = T,  pch = "o",  stroke = "gray", size=1,
+                xlim=c(0,6), ylim=c(0,6), zlim=c(0,6),flip.y = FALSE, 
+                color=c( r_colors2)) %>%
+              points3d(vertices(.), color="white", pch = CaOps_Dat_AdvA_label, size=.20)  %>%
+              lines3d(c(CaOps_Dat_AdvA_ndx),c(CaOps_Dat_AdvA_ndx2), col = "gray", lwd = 1)
+```
+  Clusters: ![](/Users/tfrench/Desktop/R projects/Personalysis/images/color_map.png)
+  
+
+### Explore <span style="color:blue;">(Blue)</span> 
+
+![](/Users/tfrench/Desktop/R projects/Personalysis/images/r0r0r0b1b2b3g0g0g0y0y0y0.png) 
+  
+```{r echo = FALSE}
+ scatterplot3js(b_mdat, 
+                bg = "#000000", grid = TRUE,  pch = "o",  stroke = "gray", size=1,
+                xlim=c(0,6), ylim=c(0,6), zlim=c(0,6), flip.y = FALSE,
+                color=c( b_colors2)) %>%
+              points3d(vertices(.), color="white", pch = CaOps_Dat_AdvA_label, size=.20)  %>%
+              lines3d(c(CaOps_Dat_AdvA_ndx),c(CaOps_Dat_AdvA_ndx2), col = "gray", lwd = 1)
+```
+  Clusters: ![](/Users/tfrench/Desktop/R projects/Personalysis/images/color_map.png)  
+  
+### Organize <span style="color:green;">(Green)</span>
+
+
+![](/Users/tfrench/Desktop/R projects/Personalysis/images/r0r0r0b0b0b0g1g2g3y0y0y0.png) 
+ 
+```{r echo = FALSE}
+ scatterplot3js(g_mdat, 
+                bg = "#000000", grid = TRUE,  pch = "o",  stroke = "gray", size=1,
+                xlim=c(0,6), ylim=c(0,6), zlim=c(0,6), flip.y = FALSE,
+                color=c( g_colors2)) %>%
+              points3d(vertices(.), color="white", pch = CaOps_Dat_AdvA_label, size=.20)  %>%
+              lines3d(c(CaOps_Dat_AdvA_ndx),c(CaOps_Dat_AdvA_ndx2), col = "gray", lwd = 1)
+```
+  Clusters: ![](/Users/tfrench/Desktop/R projects/Personalysis/images/color_map.png)
+ 
+### Collaborate <span style="color:goldenrod;">(Yellow)</span> 
+
+![](/Users/tfrench/Desktop/R projects/Personalysis/images/r0r0r0b0b0b0g0g0g0y1y2y3.png) 
+  
+```{r echo = FALSE}
+ scatterplot3js(y_mdat, 
+                bg = "#000000", grid = TRUE,  pch = "o",  stroke = "gray", size=1,
+                xlim=c(0,6), ylim=c(0,6), zlim=c(0,6), flip.y = FALSE,
+                color=c( y_colors2)) %>%
+              points3d(vertices(.), color="white", pch = CaOps_Dat_AdvA_label, size=.20)  %>%
+             lines3d(c(CaOps_Dat_AdvA_ndx),c(CaOps_Dat_AdvA_ndx2), col = "gray", lwd = 1)
+```
+  Clusters: ![](/Users/tfrench/Desktop/R projects/Personalysis/images/color_map.png)  
+  
+  
+  
+  
+  
+  
+  --------------------------------------------------------------------------------
+
+# **Clifton Strength Finder** {.tabset  .tabset-fade }
+
+
+![](/Users/tfrench/Desktop/R projects/Personalysis/images/strength_finder.gif)
+
+
+
+
+
+```{r echo = FALSE}
+library(bsselectR)
+#/Users/tfrench/Desktop/R projects/Personalysis/images/personalysis_',images$file[i],'){width=80%}'
+images       <- data.frame(file=c(list.files("/Users/tfrench/Desktop/R projects/Personalysis/images/")))
+images       <- dplyr::filter(images, grepl("personalysis_", file))
+plots           <- paste0("/Users/tfrench/Desktop/R projects/Personalysis/images/",images$file)
+names(plots) <- substring(images$file, 14, nchar(images$file)-4)
+
+  
+#bsselect(plots, type = "text", size="10", header=TRUE)
+
+bsselect(plots, type = "img", size='5', style= "btn-primary", #style= "btn-primary",
+         live_search = FALSE, show_tick = TRUE)
+```
+

@@ -1,0 +1,624 @@
+---
+title: "Personalysis and Strength Finder Analytics for the PSJH Clinical Analytics Team"
+author: "**Update: ** `r format(Sys.time(), '%d %B, %Y')` (T. French)"
+output:
+  html_document:
+    css: ['css/style.css', 'css/custom.css']
+    df_print: paged
+    highlight: tango
+    includes:
+      before_body: www/header.html
+    number_sections: no
+    theme: sandstone
+    toc: yes
+    toc_depth: 6
+    toc_float:
+      collapsed: no
+      smooth_scroll: yes
+params:
+  primaryInput: "0"
+---
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+;&nbsp;&nbsp;&nbsp;  
+
+<!-------------------------- -
+ Generate image files for each respondent's Personlaysis results
+ --------------------------
+ ***  Run only if there are new respondents !!!!!
+ ****  REMOVE --- eval=FALSE  --- below for it to actually execute !!!!
+ path:  Users/tfrench/Desktop/R projects/Personalysis
+-------------------------- -->
+```{r, eval=FALSE, include=FALSE, code = readLines("R/gen_peronalysis_imgs.R")}
+```
+
+
+<!-------------------------- -
+ Load libraries, Initialize data
+ ------------------------------
+  - key libraries: threejs, collapsibleTree, htmlwidgets
+  - Data source:   C:/Users/tfrench/Desktop/R projects/Personalysis/Data/Personalysis.xlsx
+  - Data source:   C:/Users/tfrench/Desktop/R projects/Personalysis/Data/Strengths Abreviated.xlsx
+  - Images:          /Users/tfrench/Desktop/R projects/Personalysis/images/
+  - path:          Users/tfrench/Desktop/R projects/Personalysis
+-------------------------- -->
+```{r, include=FALSE, code = readLines("R/Personalysis_setup.R")}
+```
+
+<!-------------------------- -
+ Generate  One-dimensional clusters (4)
+ --------------------------
+           grouping caregivers into homogeneous subgroups based on a 
+           combination of Personalysis dimension and color response scores
+           Results stored for use with interactive tabs defined below
+-------------------------- -->
+```{r, include=FALSE, code = readLines("R/Personalysis_cluster.R")}
+```
+
+<!-------------------------- -
+ Generate  3-dimensional view of all respondents for each color set
+ --------------------------
+           Cluster them in 3 groups
+           Label and connect specific team members.
+           Results stored for use with interactive tabs defined below
+-------------------------- -->
+```{r, include=FALSE, code = readLines("R/Personalysis_3D.R")}
+```
+
+# Personalysis _Profiles_ {.tabset  .tabset-fade }
+**Respondents:** `r #sort(respondents)` &nbsp;(n=`r length(unique(respondents))`)
+
+<!-------------------------- -
+  Construct tabbed framework for selecting a respndent's Personlaysis image.
+  --------------------------
+    One tab for each Personalysis responder
+-------------------------- -->  
+```{r echo = FALSE, results ='asis'}
+for(i in 1:length(images$file)){
+  cat('\n##', images$name[i], '\n')
+  cat('\n')
+  #cat(paste0('![](/Users/tfrench/Desktop/R projects/Personalysis/images/personalysis01_',images$file[i],')'))
+  cat(paste0('![](/Users/tfrench/Desktop/R projects/r_repo/Personalysis/images/personalysis_',images$file[i],'){width=80%}'))
+  cat('\n  \n  \n  ')
+}
+```
+## _Others_  
+ 
+![](/Users/tfrench/Desktop/R projects/Personalysis/images/working on it.gif) 
+
+
+
+<!-------------------------- -
+ Construct tabbed framework for selecting  one-dimensional clustering of respondent Personalysis results
+ --------------------------
+  - Main tabs:      One for each color (4)
+  - Secondary tabs: One for each dimension - Contribute, Connect, Commit (3) 
+  - 12 cells in all
+-------------------------- --> 
+# Personalysis _Clustering_ {.tabset }
+
+ Clustering was used as a simple unsupervised learning technique seeking to **cluster caregivers** into homogeneous or similar subgroups (4) based on a combination of Personalysis _dimension_ and _color_ response scores.
+
+
+## Expedite <span style="color:red;">(Red)</span>  {.tabset}  
+
+### Contribution
+
+ <table><tr><td  width = "235">![](/Users/tfrench/Desktop/R projects/Personalysis/images/r1r0r0b0b0b0g0g0g0y0y0y0.png)</td>
+<td><B> Like to:</B> <BR>
+Take immediate action <BR> Implement <BR> Focus on goals <BR> Execute
+</td></tr> </table> 
+
+
+
+```{r, fig.height = 6, echo=FALSE}
+collapsibleTree(test %>% arrange(desc(r1_cluster), r1_Label), c("r1_cluster","r1_Label"), collapsed = F, root="Contribution ",fontSize=14, zoomable = TRUE, fill= reds2, nodeSize = "r1")
+```  
+
+
+### Connection 
+
+  <table><tr><td  width = "235"> ![](/Users/tfrench/Desktop/R projects/Personalysis/images/r0r2r0b0b0b0g0g0g0y0y0y0.png)</td>
+<td><B> Should: </B>
+<BR> Independent <BR> Assertive <BR> Direct <BR> Produce
+</td></tr> </table> 
+ 
+```{r, fig.height = 6, echo=FALSE}
+collapsibleTree(test %>% arrange(desc(r2_cluster), r2_Label), c("r2_cluster","r2_Label"), collapsed = F, root="Connection ",fontSize=14, zoomable = TRUE, fill= reds2, nodeSize = "r2")
+```  
+
+
+### Commitment
+  
+  <table><tr><td  width = "235">![](/Users/tfrench/Desktop/R projects/Personalysis/images/r0r0r3b0b0b0g0g0g0y0y0y0.png)</td>
+<td><B> Must have:</B>
+<BR> Clear goal <BR> Personal experience <BR> Ability to initiate action <BR> WHAT? WHEN? 
+</td></tr> </table> 
+
+```{r, fig.height = 6, echo=FALSE}
+collapsibleTree(test %>% arrange(desc(r3_cluster), r3_Label), c("r3_cluster","r3_Label"), collapsed = F, root="Commitment ",fontSize=14, zoomable = TRUE, fill= reds2, nodeSize = "r3")
+```   
+
+
+
+## Explore <span style="color:blue">(Blue)</span>  {.tabset}  
+
+### Contribution
+
+ <table><tr><td  width = "235"> ![](/Users/tfrench/Desktop/R projects/Personalysis/images/r0r0r0b1b0b0g0g0g0y0y0y0.png)</td>
+<td><B> Like to </B> 
+<BR>  Diagnose <BR> Coach/Consult <BR> Develop solutions <BR> Strategize
+</td></tr> </table> 
+ 
+```{r, fig.height = 7, echo=FALSE}
+collapsibleTree(test %>% arrange(desc(b1_cluster), b1_Label), c("b1_cluster","b1_Label"), collapsed = F, root="Contribution ",fontSize=14, zoomable = TRUE, fill= blues2, nodeSize = "b1")
+``` 
+### Connection 
+
+  <table><tr><td  width = "235">  ![](/Users/tfrench/Desktop/R projects/Personalysis/images/r0r0r0b0b2b0g0g0g0y0y0y0.png)</td>
+<td><B> Should: </B>
+<BR> Knowledgeable <BR> Understanding <BR> Question <BR> Explain
+</td></tr> </table> 
+ 
+```{r, fig.height = 7, echo=FALSE}
+collapsibleTree(test %>% arrange(desc(b2_cluster), b2_Label), c("b2_cluster","b2_Label"), collapsed = F, root=" Connection ",fontSize=14, zoomable = TRUE, fill= blues2, nodeSize = "b2")
+``` 
+### Commitment
+ 
+
+  <table><tr><td  width = "235"> ![](/Users/tfrench/Desktop/R projects/Personalysis/images/r0r0r0b0b0b3g0g0g0y0y0y0.png) </td>
+<td><B> Must have: </B>
+ <BR> Rationale/Context <BR> Clarity <BR> Ability to contemplate <BR> WHY? WHAT IF?
+</td></tr> </table> 
+
+```{r, fig.height = 7, echo=FALSE}
+collapsibleTree(test %>% arrange(desc(b3_cluster), b3_Label), c("b3_cluster","b3_Label"), collapsed = F, root="Commitment ",fontSize=14, zoomable = TRUE, fill= blues2, nodeSize = "b3")
+```  
+  
+
+
+
+## Organize <span style="color:green">(Green)</span>  {.tabset}  
+
+### Contribution
+ 
+  <table><tr><td  width = "235"> ![](/Users/tfrench/Desktop/R projects/Personalysis/images/r0r0r0b0b0b0g1g0g0y0y0y0.png)</td>
+<td><B> Like to: </B>
+<BR> Structure <BR> Monitor <BR> Prioritize work <BR> Control
+</td></tr> </table> 
+ 
+```{r, fig.height = 7, echo=FALSE}
+collapsibleTree(test %>% arrange(desc(g1_cluster), g1_Label), c("g1_cluster","g1_Label"), collapsed = F, root="Contribution ",fontSize=14, zoomable = TRUE, fill= greens2, nodeSize = "g1")
+``` 
+### Connection 
+
+ 
+   <table><tr><td  width = "235">  ![](/Users/tfrench/Desktop/R projects/Personalysis/images/r0r0r0b0b0b0g0g2g0y0y0y0.png)</td>
+<td><B> Should: </B>
+<BR> Responsible <BR> Consistent <BR> Comply <BR> Regulate
+</td></tr> </table> 
+ 
+```{r, fig.height = 7, echo=FALSE}
+collapsibleTree(test %>% arrange(desc(g2_cluster, g2_Label)), c("g2_cluster","g2_Label"), collapsed = F, root=" Connection ",fontSize=14, zoomable = TRUE, fill= greens2, nodeSize = "g2")
+``` 
+### Commitment
+  
+   <table><tr><td  width = "235"> ![](/Users/tfrench/Desktop/R projects/Personalysis/images/r0r0r0b0b0b0g0g0g3y0y0y0.png)</td>
+<td><B> Must have: </B>
+<BR> History of reliability <BR> Data and details <BR> Ability to prove <BR> HOW? WHERE?
+</td></tr> </table> 
+
+```{r, fig.height = 7, echo=FALSE}
+collapsibleTree(test %>% arrange(desc(g3_cluster), g3_Label), c("g3_cluster","g3_Label"), collapsed = F, root="Commitment ",fontSize=14, zoomable = TRUE, fill= greens2, nodeSize = "g3")
+```  
+  
+
+
+
+## Collaborate <span style="color:goldenrod">(Yellow)</span>  {.tabset}  
+
+### Contribution
+ 
+  <table><tr><td  width = "235"> ![](/Users/tfrench/Desktop/R projects/Personalysis/images/r0r0r0b0b0b0g0g0g0y1y0y0.png)</td>
+<td><B> Like to: </B>
+<BR> Facilitate <BR> Include <BR> Actively support others <BR> Participate
+</td></tr> </table> 
+ 
+```{r, fig.height = 7, echo=FALSE}
+collapsibleTree(test %>% arrange(desc(y1_cluster), y1_Label), c("y1_cluster","y1_Label"), collapsed = F, root="Contribution ",fontSize=14, zoomable = TRUE, fill= yellows2, nodeSize = "y1")
+``` 
+### Connection 
+
+ 
+   <table><tr><td  width = "235">  ![](/Users/tfrench/Desktop/R projects/Personalysis/images/r0r0r0b0b0b0g0g0g0y0y2y0.png)</td>
+<td><B> Should: </B>
+<BR>Responsive <BR> Diplomatic <BR> Involve <BR> Observe
+</td></tr> </table> 
+ 
+```{r, fig.height = 7, echo=FALSE}
+collapsibleTree(test %>% arrange(desc(y2_cluster), y2_Label), c("y2_cluster","y2_Label"), collapsed = F, root=" Connection ",fontSize=14, zoomable = TRUE, fill= yellows2, nodeSize = "y2")
+``` 
+### Commitment
+  
+   <table><tr><td  width = "235"> ![](/Users/tfrench/Desktop/R projects/Personalysis/images/r0r0r0b0b0b0g0g0g0y0y0y3.png)</td>
+<td><B> Must have: </B>
+<BR> Group support <BR> Flexibility <BR> Ability to influence others <BR> WHO? WHAT ELSE?
+</td></tr> </table> 
+
+```{r, fig.height = 7, echo=FALSE}
+collapsibleTree(test %>% arrange(desc(y3_cluster), y3_Label), c("y3_cluster","y3_Label"), collapsed = F, root="Commitment ",fontSize=14, zoomable = TRUE, fill= yellows2, nodeSize = "y3")
+```  
+  
+
+
+<!-------------------------- -
+ Construct Tabbed framework for selecting  3-dimensional plots for each definned team
+-------------------------- --> 
+
+# Personalysis _Teams_ {.tabset}
+
+Below are **3 dimensional team views** of all CA caregivers with specific individuals called out within selected teams.  All caregivers are clustered as well into 3 homogeneous groups. 
+
+_Select Team (Tab row 1) and Personalysis Color (Tab row 2)_
+
+
+
+
+<!-------------------------- -->
+<!-- Executive Team 3D -->
+<!-------------------------- -->
+
+## Executives {.tabset}
+
+### Expedite <span style="color:darkred;">(Red)</span> 
+```{r echo = FALSE, results ='asis'}
+the_color= 'r'; the_team = 'Executive'
+```
+```{r, echo = FALSE, results ='asis', code = readLines("R/Personalysis_3D_function.R")}
+``` 
+
+
+### Explore <span style="color:blue;">(Blue)</span> 
+```{r echo = FALSE, results ='asis'}
+the_color= 'b'; the_team = 'Executive'
+```
+```{r, echo = FALSE, results ='asis', code = readLines("R/Personalysis_3D_function.R")}
+```  
+  
+
+### Organize <span style="color:green;">(Green)</span> 
+```{r echo = FALSE, results ='asis'}
+the_color= 'g'; the_team = 'Executive'
+```
+```{r, echo = FALSE, results ='asis', code = readLines("R/Personalysis_3D_function.R")}
+```    
+
+### Collaborate <span style="color:goldenrod;">(Yellow)</span> 
+```{r echo = FALSE, results ='asis'}
+the_color= 'y'; the_team = 'Executive'
+```
+```{r, echo = FALSE, results ='asis', code = readLines("R/Personalysis_3D_function.R")}
+```  
+
+<!-------------------------- -->
+<!-- CA OPS Team 3D -->
+<!-------------------------- -->
+
+## Lizbeth M -vs- Gino C {.tabset}
+
+### Expedite <span style="color:darkred;">(Red)</span> 
+```{r echo = FALSE, results ='asis'}
+the_color= 'r'; the_team = 'LizbethM_vs_GinoC'
+```
+```{r, echo = FALSE, results ='asis', code = readLines("R/Personalysis_3D_function.R")}
+``` 
+
+
+### Explore <span style="color:blue;">(Blue)</span> 
+```{r echo = FALSE, results ='asis'}
+the_color= 'b'; the_team = 'LizbethM_vs_GinoC'
+```
+```{r, echo = FALSE, results ='asis', code = readLines("R/Personalysis_3D_function.R")}
+```  
+  
+
+### Organize <span style="color:green;">(Green)</span> 
+```{r echo = FALSE, results ='asis'}
+the_color= 'g'; the_team = 'LizbethM_vs_GinoC'
+```
+```{r, echo = FALSE, results ='asis', code = readLines("R/Personalysis_3D_function.R")}
+```    
+
+### Collaborate <span style="color:goldenrod;">(Yellow)</span> 
+```{r echo = FALSE, results ='asis'}
+the_color= 'y'; the_team = 'LizbethM_vs_GinoC'
+```
+```{r, echo = FALSE, results ='asis', code = readLines("R/Personalysis_3D_function.R")}
+``` 
+
+<!-------------------------- -->
+<!-- Procuct owners / mgrs. Team 3D -->
+<!-------------------------- -->
+
+## Product Owners / Mgrs   {.tabset}
+
+### Expedite <span style="color:darkred;">(Red)</span> 
+```{r echo = FALSE, results ='asis'}
+the_color= 'r'; the_team = 'Prod_Owners_Mgrs'
+```
+```{r, echo = FALSE, results ='asis', code = readLines("R/Personalysis_3D_function.R")}
+``` 
+
+### Explore <span style="color:blue;">(Blue)</span> 
+```{r echo = FALSE, results ='asis'}
+the_color= 'b'; the_team = 'Prod_Owners_Mgrs'
+```
+```{r, echo = FALSE, results ='asis', code = readLines("R/Personalysis_3D_function.R")}
+```  
+  
+
+### Organize <span style="color:green;">(Green)</span> 
+```{r echo = FALSE, results ='asis'}
+the_color= 'g'; the_team = 'Prod_Owners_Mgrs'
+```
+```{r, echo = FALSE, results ='asis', code = readLines("R/Personalysis_3D_function.R")}
+```    
+
+### Collaborate <span style="color:goldenrod;">(Yellow)</span> 
+```{r echo = FALSE, results ='asis'}
+the_color= 'y'; the_team = 'Prod_Owners_Mgrs'
+```
+```{r, echo = FALSE, results ='asis', code = readLines("R/Personalysis_3D_function.R")}
+``` 
+ 
+<!-------------------------- -->
+<!-- Viz/Analytic Consultants/ mgrs. Team 3D -->
+<!-------------------------- -->
+
+## Viz/Analytic Consultants   {.tabset}
+
+### Expedite <span style="color:darkred;">(Red)</span> 
+```{r echo = FALSE, results ='asis'}
+the_color= 'r'; the_team = 'Viz_Analytic_Consultants'
+```
+```{r, echo = FALSE, results ='asis', code = readLines("R/Personalysis_3D_function.R")}
+``` 
+
+
+### Explore <span style="color:blue;">(Blue)</span> 
+```{r echo = FALSE, results ='asis'}
+the_color= 'b'; the_team = 'Viz_Analytic_Consultants'
+```
+```{r, echo = FALSE, results ='asis', code = readLines("R/Personalysis_3D_function.R")}
+```  
+  
+
+### Organize <span style="color:green;">(Green)</span> 
+```{r echo = FALSE, results ='asis'}
+the_color= 'g'; the_team = 'Viz_Analytic_Consultants'
+```
+```{r, echo = FALSE, results ='asis', code = readLines("R/Personalysis_3D_function.R")}
+```    
+
+### Collaborate <span style="color:goldenrod;">(Yellow)</span> 
+```{r echo = FALSE, results ='asis'}
+the_color= 'y'; the_team = 'Viz_Analytic_Consultants'
+```
+```{r, echo = FALSE, results ='asis', code = readLines("R/Personalysis_3D_function.R")}
+``` 
+
+  
+
+# Clifton Strength Finder {.tabset  .tabset-fade }
+
+<!-------------------------- -
+ Construct Tabbed framework for selecting  and displaying Strength Finder results
+-------------------------- --> 
+
+![](/Users/tfrench/Desktop/R projects/r_repo/Personalysis/images/strength_finder.gif)
+<BR><BR>
+
+  
+# &nbsp;Clifton Strength Respondents {.tabset  .tabset-fade }
+
+  
+**Respondents:** `r sort(unique(Personalysis$Name[Personalysis$Desc != 'NA']))` &nbsp;(**n=`r length(unique(Personalysis$Name[Personalysis$Desc != 'NA']))`**)
+  
+<BR><BR>
+
+# &nbsp;Clifton Strength Profiles {.tabset  .tabset-fade }
+
+## Top Five Strengths
+
+
+ **Top Five Strengths** ![](/Users/tfrench/Desktop/R projects/r_repo/Personalysis/images/strength_finder_small.gif)
+
+```{r, Clifton Strength Profile1b, echo=FALSE, fig.width = 14, out.hieght= "500px"}
+# Read the data again.  ******** Need to fix this so this 2nd read of the data is not needed!!!!!
+Personalysis <- read_excel("C:/Users/tfrench/Desktop/R projects/r_repo/Personalysis/Data/Personalysis.xlsx")
+Strength_desc<- read_excel("C:/Users/tfrench/Desktop/R projects/r_repo/Personalysis/Data/Strengths Abreviated.xlsx")
+Personalysis <- merge(Personalysis, Strength_desc, all.x=TRUE)
+Personalysis$Name_abbr <- substr(Personalysis$Name, 1, unlist(gregexpr(" ",Personalysis$Name)) + 1)
+
+#collapsibleTree(Personalysis %>% filter(Desc != 'NA') %>% arrange(Desc,Name), c("Dimension","Desc", "Name"), collapsed = T, root=" ",zoomable = T, width=1200, fontSize=12, linkLength=120)
+
+hold      <-Personalysis %>% filter(Desc != 'NA') %>% select(Dimension, Desc) %>% distinct() %>% count(Dimension)
+names_cnt <- Personalysis %>% filter(Desc != 'NA') %>% count()
+fill_cols = c('#FFFFFF', '#730675','#F17E17','#1766CC' ,'#008966' )
+fill_cols = c(fill_cols, rep('#F9ABFB',hold[1,2]), rep('#FBDDC1',hold[2,2]), rep('#A2C5F4',hold[3,2]), rep('#D5FFF4',hold[4,2]))
+fill_cols = c(fill_cols, rep('#FFFFFF',names_cnt))            
+ collapsibleTree(Personalysis %>% filter(Desc != 'NA') %>% arrange(Desc,Name), c("Dimension","Desc", "Name"), 
+              collapsed = T, root=" ",zoomable = T, width=1200, fontSize=12, linkLength=120, fill=fill_cols)
+```
+
+
+## All Top Five Strengths: By Responder 
+    
+
+
+ **All Top Five Strengths: By Responder**
+```{r Clifton Strength Profile2, echo=FALSE, warning=FALSE}
+collapsibleTree(Personalysis %>% filter(Desc != 'NA') %>% arrange(Name,Dimension ), c("Name", "Dimension","Desc", "Desc_long"), collapsed = TRUE, root=" ", zoomable = TRUE, width=1200, fontSize=12, linkLength=120)
+```
+
+
+## All Top Five Strengths - Ordered
+
+ **All Top Five Strengths - Ordered**
+```{r,  echo=FALSE}
+ collapsibleTree(Personalysis %>% filter(Desc != 'NA') %>% arrange(n, Desc,Name), c("n","Desc", "Name"), collapsed = T, root=" ", zoomable = TRUE  ,fontSize=14 )
+```
+
+# Correlation and PCA Analysis {.tabset  .tabset-fade }  
+
+------------------------------------------------------------------------- 
+
+## Correlations  
+```{r, fig.width=10, fig.height=8, echo=FALSE, message=FALSE}
+a1<- Personalysis %>% select(Name, Name_abbr, n, Dimension, Desc, Desc_long) %>%
+                      filter(Desc !='NA') %>%
+                      tidyr::pivot_wider(names_from = n, values_from = c(Dimension, Desc, Desc_long)) %>%
+                      mutate(
+             Dim.Executing =    ifelse(Dimension_1=='Executing',1,0) + ifelse(Dimension_2=='Executing',1,0) *
+                                ifelse(Dimension_3=='Executing',1,0) + ifelse(Dimension_4=='Executing',1,0)+
+                                ifelse(Dimension_5=='Executing',1,0),
+
+             Dim.Influencing =  ifelse(Dimension_1=='Influencing',1,0) + ifelse(Dimension_2=='Influencing',1,0) *
+                                ifelse(Dimension_3=='Influencing',1,0) + ifelse(Dimension_4=='Influencing',1,0)+
+                                ifelse(Dimension_5=='Influencing',1,0),
+
+             Dim.Strategic_Thinking =  ifelse(Dimension_1=='Strategic Thinking',1,0) + ifelse(Dimension_2=='Strategic Thinking',1,0) *
+                                       ifelse(Dimension_3=='Strategic Thinking',1,0) + ifelse(Dimension_4=='Strategic Thinking',1,0)+
+                                       ifelse(Dimension_5=='Strategic Thinking',1,0),
+
+             Dim.Relationship_Building =  ifelse(Dimension_1=='Relationship Building',1,0) + ifelse(Dimension_2=='Relationship Building',1,0) *
+                                          ifelse(Dimension_3=='Relationship Building',1,0) + ifelse(Dimension_4=='Relationship Building',1,0)+
+                                          ifelse(Dimension_5=='Relationship Building',1,0)
+             )
+
+a2<- Personalysis %>% filter(r1!='NA') %>% select(Name, Name_abbr, r1,r2,r3,b1,b2,b3,g1,g2,g3,y1,y2,y3)
+
+a3 <- merge(a1,a2)
+a3 <- a3 %>% select(Name_abbr, r1,r2,r3,b1,b2,b3,g1,g2,g3,y1,y2,y3, Dim.Executing, Dim.Influencing, Dim.Strategic_Thinking, Dim.Relationship_Building )
+
+a3<- rename(a3, c(Expedite_Contribute_R1=r1, Expedite_Connect_R2=r2 , Expedite_Commit_R3=r3 ))
+a3<- rename(a3, c(Explore_Contribute_B1=b1, Explore_Connect_B2=b2 , Explore_Commit_B3=b3 ))
+a3<- rename(a3, c(Organize_Contribute_G1=g1, Organize_Connect_G2=g2 , Organize_Commit_G3=g3 ))
+a3<- rename(a3, c(Collaborate_Contribute_Y1=y1, Collaborate_Connect_Y2=y2 , Collaborate_Commit_Y3=y3 ))
+a3<- rename(a3, c(Relationship_Building_Strength = Dim.Relationship_Building, Strategic_Thinking_Strength =Dim.Strategic_Thinking,
+                  Influencing_Strength =Dim.Influencing, Executing_Strength = Dim.Executing))
+
+cormat <- round(cor(a3[,2:17], method="spearman", use="complete.obs"),2)
+
+
+library(reshape2)
+melted_cormat <- melt(cormat)
+
+get_upper_tri<-function(cormat){
+  cormat[lower.tri(cormat)]<- NA
+  return(cormat)
+}
+
+
+# Reorder the correlation matrix
+#cormat        <- reorder_cormat(cormat)
+upper_tri     <- get_upper_tri(cormat)
+# Melt the correlation matrix
+melted_cormat <- melt(upper_tri, na.rm = TRUE)
+# Create a ggheatmap
+ggheatmap     <- ggplot(melted_cormat, aes(Var2, Var1, fill = value))+
+  geom_tile(color = "white")+
+  scale_fill_gradient2(low = "blue", high = "red", mid = "white",
+                       midpoint = 0, limit = c(-1,1), space = "Lab",
+                       name="Spearman\nCorrelation") +
+  theme_minimal()+ # minimal theme
+  theme(axis.text.x = element_text(angle = 45, vjust = 1,
+                                   size = 8, hjust = 1))+
+  coord_fixed()
+
+
+
+ggheatmap +
+  geom_text(aes(Var2, Var1, label = value), color = "black", size = 3) +
+  ggtitle("Correlations: Personalysis and Strengths") +
+  theme(
+    axis.title.x = element_blank(),
+    axis.title.y = element_blank(),
+    panel.grid.major = element_blank(),
+    panel.border = element_blank(),
+    panel.background = element_blank(),
+    axis.ticks = element_blank(),
+    legend.justification = c(1, 0),
+    legend.position = c(0.6, 0.7),
+    legend.direction = "horizontal")+
+  guides(fill = guide_colorbar(barwidth = 7, barheight = 1,
+                               title.position = "top", title.hjust = 0.5)) +
+  labs(caption = "|--------------------------------------- Personalysis Traits -----------------------------------------| |------------ Strengths ----------|")
+
+
+```
+
+## PCA  
+```{r, fig.width=8, fig.height=4, echo=FALSE, message=FALSE}
+PCA_results <- prcomp(a3[,2:17], scale = TRUE)
+
+#create scree plot
+
+library("factoextra")
+eig.val <- get_eigenvalue(PCA_results)
+#eig.val
+fviz_eig(PCA_results, addlabels = TRUE, ylim = c(0, 50), main="PCA: Personalysis Components and Strengths Scree Plot")
+#fviz_pca_var(PCA_results, col.var = "black")
+#fviz_cos2(PCA_results, choice = "var", axes = 1:2)
+
+var <- get_pca_var(PCA_results)
+library("corrplot")
+cex.before <- par("cex")
+par(cex = 0.8)
+corrplot(var$cos2[,1:8], is.corr=FALSE, main="PCA: Personalysis and Strengths Corrs with PCA Dimensions" , mar = c(1, 1, 2, 1))
+par(cex = cex.before)
+
+#var <- get_pca_var(prcomp(a2[,3:14]))
+#corrplot(var$cos2[,1:8], is.corr=FALSE, main="PCA: Personalysis and Strengths Corrs with PCA Dimensions", mar = c(1, 1, 2, 1))
+
+
+```
+
+
+
+
+
+# Appendix and Data {.tabset  .tabset-fade }
+
+## References / Scources
+
+  
+
++ <a href="https://teams.microsoft.com/_#/files/General?threadId=19%3Ae37871bead61445391cb7861752f2215%40thread.tacv2&ctx=channel&context=Personalysis%2520%2526%2520StrengthFinders&rootfolder=%252Fsites%252FClinicalAnalyticsHelixLeaders%252FShared%2520Documents%252FGeneral%252FPersonalysis%2520%2526%2520StrengthFinders" target="_blank">PSJH Personalysis/Strength Finder Teams site</a>
++ <a href="https://enttableaudev.providence.org/#/views/ClinicalAnalyticsPersonalysisResults/Guide" target="_blank">PSJH Personalysis Tableau report</a>
++ <a href="https://personalysis.wiredtothrive.com   " target="_blank">Personalysis</a>
++ <a href="https://www.gallup.com/cliftonstrengths/en/home.aspx  " target="_blank">CliftonStrengths</a>
++ <a href="https://cran.r-project.org/web/packages/htmlwidgets/htmlwidgets.pdf" target="_blank">htmlwidgets for R</a>
++ <a href="https://cran.r-project.org/web/packages/threejs/threejs.pdf" target="_blank">scatterplot3d package</a>
++ <a href="https://cran.r-project.org/web/packages/collapsibleTree/collapsibleTree.pdf" target="_blank">collapsibleTree 0.1.7</a>
+
+## Response data {.tabset  .tabset-fade }
+
+```{r Results Table,  echo=FALSE, message=FALSE}
+a<- Personalysis %>% select(Name, n, Dimension, Desc, Desc_long) %>% filter(Desc !='NA') %>%
+    tidyr::pivot_wider(names_from = n, values_from = c(Dimension, Desc, Desc_long))
+
+b<- Personalysis %>% filter(n==1) %>% select(-n, -Desc, -Desc_long, -Dimension)
+c <-left_join(b,a)
+
+c %>%  DT::  datatable(extensions = 'Buttons',
+                            caption = 'Table 1. List of all Respondent Peronalysis Scores and Top 5 Strength Finder Values',
+            options = list(dom = 'Bt, tp',
+                           buttons = c('copy', 'csv', 'excel'),
+                           lengthMenu = list(c(10,25,50,-1),
+                                             c(10,25,50,"All"))))
+```
+
+
+
