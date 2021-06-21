@@ -1,0 +1,323 @@
+---
+title: "3D Personalysis"
+author: "Thomas French"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    toc: yes
+    toc_depth: 5
+    toc_float:
+      collapsed: yes
+      smooth_scroll: yes 
+---
+
+
+
+```{r echo = FALSE}
+library(readxl)
+library(dplyr)
+library(threejs)
+#set.seed(123)
+Personalysis <- read_excel("Data/Personalysis.xlsx")
+personalysis_sample <- Personalysis %>% filter(!is.na(r1))
+
+ personalysis_sample <- personalysis_sample %>% arrange(Name) 
+ personalysis_sample$Name_abbr <- substr(personalysis_sample$Name, 1, unlist(lapply(gregexpr(pattern = ' ', personalysis_sample$Name), min)) +1)
+
+  
+ r_mdat    <- as.matrix(subset(personalysis_sample, select = c(r1, r2, r3)))
+ r_colors  <- kmeans(r_mdat, centers=3, nstart = 25)$cluster  
+ #r_colors2 <- ifelse(r_colors==1,'red',ifelse(r_colors==2,'green', ifelse(r_colors==3,'blue','yellow')))
+ r_colors2 <- ifelse(r_colors==1,'#0CF4F0',ifelse(r_colors==2,'#AE7FFF', ifelse(r_colors==3,'#FF9F7F','yellow')))
+  colnames(r_mdat) <- c("Contribute","Connect","Commit")
+ 
+ g_mdat    <- as.matrix(subset(personalysis_sample, select = c(g1, g2, g3)))
+ g_colors  <- kmeans(g_mdat, centers=3, nstart = 25)$cluster  
+ #g_colors2 <- ifelse(g_colors==1,'red',ifelse(g_colors==2,'green', ifelse(g_colors==3,'blue','yellow')))
+ g_colors2 <- ifelse(g_colors==1,'#0CF4F0',ifelse(g_colors==2,'#AE7FFF', ifelse(g_colors==3,'#FF9F7F','yellow')))
+  colnames(g_mdat) <- c("Contribute","Connect","Commit")
+  
+ b_mdat    <- as.matrix(subset(personalysis_sample, select = c(b1, b2, b3)))
+ b_colors  <- kmeans(b_mdat, centers=3, nstart = 25)$cluster  
+ #b_colors2 <- ifelse(b_colors==1,'red',ifelse(b_colors==2,'green', ifelse(b_colors==3,'blue','yellow')))
+ b_colors2 <- ifelse(b_colors==1,'#0CF4F0',ifelse(b_colors==2,'#AE7FFF', ifelse(b_colors==3,'#FF9F7F','yellow')))
+  colnames(b_mdat) <- c("Contribute","Connect","Commit")
+   
+ y_mdat    <- as.matrix(subset(personalysis_sample, select = c(y1, y2, y3)))
+ y_colors  <- kmeans(y_mdat, centers=3, nstart = 25)$cluster  
+ y_colors2 <- ifelse(y_colors==1,'#0CF4F0',ifelse(y_colors==2,'#AE7FFF', ifelse(y_colors==3,'#FF9F7F','yellow')))
+ colnames(y_mdat) <- c("Contribute","Connect","Commit")
+ 
+ 
+
+# Create columns for each team with values 0 or 1 as membership
+ Team      <- data.frame(Group=c("Executive", "Adv_analytics", "CaOps_Dat_AdvA"))
+ Team$Name     <- list(c("Thomas French", "Gino Conconi", "Caleb Stowell", "Firouzeh Manucheri", "Ari Robicsek"),
+                       c("Thomas French", "Chuck Laurenson", "Bradley Roberts"),
+                       c("Thomas French","Susan Pollock","Jessica Swann","Vandana Kapoor"))
+
+ personalysis_sample <- personalysis_sample %>% 
+                        mutate( Executive      = ifelse(Name %in% unlist(Team$Name[Team$Group=="Executive"]), 1,0),
+                                Adv_analytics  = ifelse(Name %in% unlist(Team$Name[Team$Group=="Adv_analytics"]), 1,0),
+                                CaOps_Dat_AdvA = ifelse(Name %in% unlist(Team$Name[Team$Group=="CaOps_Dat_AdvA"]), 1,0))
+ Executive_label     <- ifelse(personalysis_sample$Executive== 1,personalysis_sample$Name_abbr,'')
+ Adv_analytics_label <- ifelse(personalysis_sample$Adv_analytics== 1,personalysis_sample$Name_abbr,'')
+ CaOps_Dat_AdvA_label<- ifelse(personalysis_sample$CaOps_Dat_AdvA== 1,personalysis_sample$Name_abbr,'')
+   
+ Executive_ndx      <- which(personalysis_sample$Executive      == 1)
+ Adv_analytics_ndx  <- which(personalysis_sample$Adv_analytics  == 1)
+ CaOps_Dat_AdvA_ndx <- which(personalysis_sample$CaOps_Dat_AdvA == 1)
+ 
+ Executive_ndx2     <- lag(Executive_ndx); Executive_ndx2[1]= Executive_ndx[length(Executive_ndx)]
+ Adv_analytics_ndx2 <- lag(Adv_analytics_ndx); Adv_analytics_ndx2[1]= Adv_analytics_ndx[length(Adv_analytics_ndx)]
+ CaOps_Dat_AdvA_ndx2<- lag(CaOps_Dat_AdvA_ndx); CaOps_Dat_AdvA_ndx2[1]= CaOps_Dat_AdvA_ndx[length(CaOps_Dat_AdvA_ndx)]
+
+```
+
+-------------------------------------------------------------------------  
+
+# **Personalysis Teams **  
+  
+# &nbsp;Executive Team {.tabset  .tabset-fade } 
+
+## Expedite (red)  
+  
+```{r echo = FALSE}
+
+ scatterplot3js(r_mdat, main = "",
+                bg = "#000000", grid = T,  pch = "o",  stroke = "gray", size=1,
+                xlim=c(0,6), ylim=c(0,6), zlim=c(0,6),flip.y = FALSE, 
+                color=c( r_colors2)) %>%
+              points3d(vertices(.), color="white", pch = Executive_label, size=.20)  %>%
+              lines3d(c(Executive_ndx),c(Executive_ndx2), col = "gray", lwd = 1)
+```
+
+## Organize (Green)  
+
+```{r echo = FALSE}
+ scatterplot3js(g_mdat, 
+                bg = "#000000", grid = TRUE,  pch = "o",  stroke = "gray", size=1,
+                xlim=c(0,6), ylim=c(0,6), zlim=c(0,6), flip.y = FALSE,
+                color=c( g_colors2)) %>%
+              points3d(vertices(.), color="white", pch = Executive_label, size=.20)  %>%
+              lines3d(c(Executive_ndx),c(Executive_ndx2), col = "gray", lwd = 1)
+```
+
+## Explore (Blue)  
+  
+```{r echo = FALSE}
+ scatterplot3js(b_mdat, 
+                bg = "#000000", grid = TRUE,  pch = "o",  stroke = "gray", size=1,
+                xlim=c(0,6), ylim=c(0,6), zlim=c(0,6), flip.y = FALSE,
+                color=c( b_colors2)) %>%
+              points3d(vertices(.), color="white", pch = Executive_label, size=.20)  %>%
+              lines3d(c(Executive_ndx),c(Executive_ndx2), col = "gray", lwd = 1)
+              
+
+```
+ 
+## Collaborate (Yellow)  
+  
+```{r echo = FALSE}
+ scatterplot3js(y_mdat, 
+                bg = "#000000", grid = TRUE,  pch = "o",  stroke = "gray", size=1,
+                xlim=c(0,6), ylim=c(0,6), zlim=c(0,6), flip.y = FALSE,
+                color=c( y_colors2)) %>%
+              points3d(vertices(.), color="white", pch = Executive_label, size=.20)  %>%
+              lines3d(c(Executive_ndx),c(Executive_ndx2), col = "gray", lwd = 1)
+```
+
+-------------------------------------------------------------------------  
+ 
+# &nbsp;Adv. Analytics {.tabset  .tabset-fade }
+
+## Expedite (red)  
+  
+```{r echo = FALSE}
+
+ scatterplot3js(r_mdat, 
+                bg = "#000000", grid = TRUE,  pch = "o", stroke = "gray", size=1,
+                xlim=c(0,6), ylim=c(0,6), zlim=c(0,6), flip.y = FALSE,
+                color=c( r_colors2)) %>%
+              points3d(vertices(.), color="white", pch = Adv_analytics_label, size=.20)  %>%
+              lines3d(c(Adv_analytics_ndx),c(Adv_analytics_ndx2), col = "gray", lwd = 1)
+```
+
+## Organize (Green)  
+
+```{r echo = FALSE}
+ scatterplot3js(g_mdat, 
+                bg = "#000000", grid = TRUE,  pch = "o", stroke = "gray", size=1,
+                xlim=c(0,6), ylim=c(0,6), zlim=c(0,6), flip.y = FALSE,
+                color=c( g_colors2)) %>%
+              points3d(vertices(.), color="white", pch = Adv_analytics_label, size=.20)  %>%
+              lines3d(c(Adv_analytics_ndx),c(Adv_analytics_ndx2), col = "gray", lwd = 1)
+```
+
+## Explore (Blue)  
+  
+```{r echo = FALSE}
+
+ scatterplot3js(b_mdat, 
+                bg = "#000000", grid = TRUE,  pch = "o", stroke = "gray", size=1,
+                xlim=c(0,6), ylim=c(0,6), zlim=c(0,6), flip.y = FALSE,
+                color=c( b_colors2)) %>%
+              points3d(vertices(.), color="white", pch = Adv_analytics_label, size=.20)  %>%
+              lines3d(c(Adv_analytics_ndx),c(Adv_analytics_ndx2), col = "gray", lwd = 1)
+              
+
+```
+ 
+## Collaborate (Yellow)  
+  
+```{r echo = FALSE}
+ scatterplot3js(y_mdat, 
+                bg = "#000000",  grid = TRUE,  pch = "o", stroke = "gray", size=1,
+                xlim=c(0,6), ylim=c(0,6), zlim=c(0,6), flip.y = FALSE,
+                color=c( y_colors2)) %>%
+              points3d(vertices(.), color="white", pch = Adv_analytics_label, size=.20)  %>%
+              lines3d(c(Adv_analytics_ndx),c(Adv_analytics_ndx2), col = "gray", lwd = 1)
+```
+
+
+-------------------------------------------------------------------------  
+ 
+# &nbsp;CaOps, Data Eng, Adv Analy {.tabset  .tabset-fade }
+
+## Expedite (red)  
+  
+```{r echo = FALSE}
+
+ scatterplot3js(r_mdat, 
+                main = "",
+                bg = "#000000",
+                flip.y = FALSE,
+               # bg = "#FFFFFF",
+                grid = TRUE,
+                #axis=FALSE,
+               # pch = "o",
+                pch = "o",
+              # pch=sample(c(".", "o", letters), length(r1), replace=TRUE),
+                stroke = "gray",
+                size=1,
+              #  xlim=c(0,6), ylim=c(0,6), zlim=c(0,6),
+                color=c( r_colors2)) %>%
+              points3d(vertices(.), color="white", pch = CaOps_Dat_AdvA_label, size=.20) %>%
+              lines3d(c(CaOps_Dat_AdvA_ndx),c(CaOps_Dat_AdvA_ndx2), col = "gray", lwd = 1)
+```
+
+## Organize (Green)  
+
+```{r echo = FALSE}
+ scatterplot3js(g_mdat, 
+                main = "",
+                bg = "#000000",
+                flip.y = FALSE,
+               # bg = "#FFFFFF",
+                grid = TRUE,
+                #axis=FALSE,
+               # pch = "o",
+                pch = "o",
+              # pch=sample(c(".", "o", letters), length(r1), replace=TRUE),
+                stroke = "gray",
+                size=1,
+               # xlim=c(0,6), ylim=c(0,6), zlim=c(0,6),
+                color=c( g_colors2)) %>%
+              points3d(vertices(.), color="white", pch = CaOps_Dat_AdvA_label, size=.20) %>%
+              lines3d(c(CaOps_Dat_AdvA_ndx),c(CaOps_Dat_AdvA_ndx2), col = "gray", lwd = 1)
+```
+
+## Explore (Blue)  
+  
+```{r echo = FALSE}
+ scatterplot3js(b_mdat, 
+                main = "",
+                bg = "#000000",
+                flip.y = FALSE,
+               # bg = "#FFFFFF",
+                grid = TRUE,
+                #axis=FALSE,
+               # pch = "o",
+                 pch = "o",
+              # pch=c((".", ",
+              # pch=c(rep("o",nrow(b_mdat)-1),"TomF"),
+                stroke = "gray",
+                size=1,
+             #   xlim=c(0,6), ylim=c(0,6), zlim=c(0,6),
+                color=c( b_colors2)) %>%
+              points3d(vertices(.), color="white", pch = CaOps_Dat_AdvA_label, size=.20) %>%
+              lines3d(c(CaOps_Dat_AdvA_ndx),c(CaOps_Dat_AdvA_ndx2), col = "gray", lwd = 1)
+              
+
+```
+ 
+## Collaborate (Yellow)  
+  
+```{r echo = FALSE}
+ scatterplot3js(y_mdat, 
+                main = "",
+                bg = "#000000",
+                flip.y = FALSE,
+               # bg = "#FFFFFF",
+                grid = TRUE,
+                #axis=FALSE,
+               # pch = "o",
+                pch = "o",
+              # pch=sample(c(".", "o", letters), length(r1), replace=TRUE),
+                stroke = "gray",
+                size=1,
+             #   xlim=c(0,6), ylim=c(0,6), zlim=c(0,6),
+                color=c( y_colors2)) %>%
+              points3d(vertices(.), color="white", pch = CaOps_Dat_AdvA_label, size=.20) %>%
+              lines3d(c(CaOps_Dat_AdvA_ndx),c(CaOps_Dat_AdvA_ndx2), col = "gray", lwd = 1)
+             # lines3d(c(6,13,1,44),c(13,1,44,6), col = "gray", lwd = 1)
+```
+  
+# Blended   
+  
+```{r}
+personalysis_sample <- personalysis_sample %>% 
+  mutate(max_1 = pmax(r1,b1,g1,y1), max_2 = pmax(r2,b2,g2,y2), max_3 = pmax(r3,b3,g3,y3)) %>% 
+  mutate(max_1_color_cd = ifelse(max_1==r1, 1,0) + ifelse(max_1==g1, 2,0) + ifelse(max_1==b1, 4,0)  + ifelse(max_1==y1, 8,0) ) %>%
+  mutate(max_1_color=ifelse(max_1_color_cd==1,'550000',
+                            ifelse(max_1_color_cd==2,'005500',
+                                   ifelse(max_1_color_cd==4,'000055',
+                                          ifelse(max_1_color_cd==8,'550055','000000'))))) %>%
+  
+  mutate(max_2_color_cd = ifelse(max_2==r2, 1,0) + ifelse(max_2==g2, 2,0) + ifelse(max_2==b2, 4,0)  + ifelse(max_2==y2, 8,0) ) %>%
+  mutate(max_2_color=ifelse(max_2_color_cd==1,'550000',
+                            ifelse(max_2_color_cd==2,'005500',
+                                   ifelse(max_2_color_cd==4,'000055',
+                                          ifelse(max_2_color_cd==8,'550055','000000'))))) %>%
+
+  mutate(max_3_color_cd = ifelse(max_3==r2, 1,0) + ifelse(max_3==g2, 2,0) + ifelse(max_3==b2, 4,0)  + ifelse(max_3==y2, 8,0) ) %>%
+  mutate(max_3_color=ifelse(max_3_color_cd==1,'550000',
+                            ifelse(max_3_color_cd==2,'005500',
+                                   ifelse(max_3_color_cd==4,'000055',
+                                          ifelse(max_3_color_cd==8,'550055','000000'))))) %>%
+  mutate(blended_color = paste0("#",as.hexmode(strtoi(max_1_color) + strtoi(max_2_color) + strtoi(max_3_color))))
+
+blended_mdat    <- as.matrix(subset(personalysis_sample, select = c(max_1, max_2, max_3)))
+
+ scatterplot3js(blended_mdat, 
+                bg = "#000000",  grid = TRUE,  pch = "o", stroke = "gray", size=1,
+                xlim=c(0,6), ylim=c(0,6), zlim=c(0,6), flip.y = FALSE,
+                color=c( personalysis_sample$blended_color)) #%>%
+             # points3d(vertices(.), color="white", pch = Adv_analytics_label, size=.20)  %>%
+             # lines3d(c(Adv_analytics_ndx),c(Adv_analytics_ndx2), col = "gray", lwd = 1)
+```
+
+# X Blended 
+
+```{r}
+ x_mdat    <- as.matrix(subset(personalysis_sample, select = c(r3, b3, g3)))
+ x_colors  <- kmeans(r_mdat, centers=3, nstart = 25)$cluster  
+ #r_colors2 <- ifelse(r_colors==1,'red',ifelse(r_colors==2,'green', ifelse(r_colors==3,'blue','yellow')))
+ x_colors2 <- ifelse(r_colors==1,'#0CF4F0',ifelse(r_colors==2,'#AE7FFF', ifelse(r_colors==3,'#FF9F7F','yellow')))
+  colnames(r_mdat) <- c("Red","Blue","Green")
+   scatterplot3js(x_mdat, 
+                bg = "#000000",  grid = TRUE,  pch = "o", stroke = "gray", size=1,
+                xlim=c(0,6), ylim=c(0,6), zlim=c(0,6), flip.y = FALSE,
+                color=c( personalysis_sample$x_colors2)) 
+```
+

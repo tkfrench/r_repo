@@ -1,0 +1,309 @@
+---
+title: "Personalysis and Strength Profile - Clinical Analytics"
+author: ""
+date: ""
+output: html_document
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(htmlwidgets)
+library(collapsibleTree)
+library(ggplot2)
+library(dplyr)
+library(readxl)
+set.seed(123)
+Personalysis <- read_excel("C:/Users/tfrench/Desktop/R projects/Personalysis/Data/Personalysis.xlsx")
+
+test<-na.omit(Personalysis)
+respndents <- unique(Personalysis$Name)
+
+#test<-na.omit(subset(Personalysis,select=c(Name,r1,r2,r3)))
+test$r_cluster <- paste0("Expedite ",kmeans(subset(test,select=c(r1,r2,r3)), centers=3, nstart = 25)$cluster)
+ test$r1_cluster <- paste0("Cont ",kmeans(subset(test,select=c(r1)), centers=3, nstart = 25)$cluster)
+ test$r2_cluster <- paste0("Conn ",kmeans(subset(test,select=c(r2)), centers=3, nstart = 25)$cluster)
+ test$r3_cluster <- paste0("Comm ",kmeans(subset(test,select=c(r3)), centers=3, nstart = 25)$cluster)
+test$g_cluster <- paste0("Organize ",kmeans(subset(test,select=c(g1,g2,g3)), centers=3, nstart = 25)$cluster)
+ test$g1_cluster <- paste0("Cont ",kmeans(subset(test,select=c(g1)), centers=3, nstart = 25)$cluster)
+ test$g2_cluster <- paste0("Conn ",kmeans(subset(test,select=c(g2)), centers=3, nstart = 25)$cluster)
+ test$g3_cluster <- paste0("Comm ",kmeans(subset(test,select=c(g3)), centers=3, nstart = 25)$cluster)
+test$b_cluster <- paste0("Explore ",kmeans(subset(test,select=c(b1,b2,b3)), centers=3, nstart = 25)$cluster)
+ test$b1_cluster <- paste0("Cont ",kmeans(subset(test,select=c(b1)), centers=3, nstart = 25)$cluster)
+ test$b2_cluster <- paste0("Conn ",kmeans(subset(test,select=c(b2)), centers=3, nstart = 25)$cluster)
+ test$b3_cluster <-paste0("Comm ", kmeans(subset(test,select=c(b3)), centers=3, nstart = 25)$cluster)
+test$y_cluster <- kmeans(subset(test,select=c(y1,y2,y3)), centers=3, nstart = 25)$cluster
+ test$y1_cluster <- kmeans(subset(test,select=c(y1)), centers=3, nstart = 25)$cluster
+ test$y2_cluster <- kmeans(subset(test,select=c(y2)), centers=3, nstart = 25)$cluster
+ test$y3_cluster <- kmeans(subset(test,select=c(y3)), centers=3, nstart = 25)$cluster
+test$all_cluster <- kmeans(subset(test,select=c(r1,r2,r3,g1,g2,g3,b1,b2,b3,y1,y2,y3)), centers=3, nstart = 50)$cluster
+ test$all_1_cluster <- kmeans(subset(test,select=c(r1,g1,b1,y1)), centers=3, nstart = 50)$cluster
+ test$all_2_cluster <- kmeans(subset(test,select=c(r2,g2,b2,y2)), centers=3, nstart = 50)$cluster
+ test$all_3_cluster <- kmeans(subset(test,select=c(r3,g3,b3,y3)), centers=3, nstart = 50)$cluster
+yellows<- c('#ffcc00',rep('#ffcc00',3), rep('#ffcc00',13),   rep('#000000',1))
+greens<- c('#008400',rep('#66ff66',3), rep('#ccffcc',5), '#000000', rep('#ccffcc',8))
+blues <- c('#003dc2',rep('#0066FF',3), rep('#99ccff',9),  '#000000', rep('#99ccff',4))
+greys <- c('#000000',rep('#808080',3), rep('#d9d9d9',13), '#000000')
+reds  <- c(rep('#840000',1) ,rep('#be0000',3), rep('#fb0000',3), '#000000', rep('#fb0000',10))
+```
+ 
+ 
+```{r, echo=FALSE, include=FALSE}
+test$r_mean  <- round((test$r1+ test$r2 + test$r3)/3,1)
+test$Name_red <- paste0(test$Name,' ',test$r_mean,' ')
+test$Name_red
+
+test$b_mean  <- round((test$b1+ test$b2 + test$b3)/3,1)
+test$Name_blue <- paste0(test$Name,' ',test$b_mean,' ')
+test$Name_blue
+
+test$g_mean  <- round((test$g1+ test$g2 + test$g3)/3,1)
+test$Name_green <- paste0(test$Name,' ',test$g_mean,' ')
+test$Name_green
+
+test$y_mean  <- round((test$y1+ test$y2 + test$y3)/3,1)
+test$Name_yellow <- paste0(test$Name,' ',test$y_mean,' ')
+test$Name_yellow
+```
+
+  
+**Respondents:** `r sort(respndents)`  
+
+**Update: ** `r format(Sys.time(), '%d %B, %Y')` (T. French)
+
+---
+
+## Personalysis  {.tabset  .tabset-pills}   
+![](/Users/tfrench/Desktop/R projects/Personalysis/images/Dimensions.gif)
+
+### Amir
+  
+![](/Users/tfrench/Desktop/R projects/Personalysis/images/personalysis01_Amir.png)
+
+
+### Andy
+  
+![](/Users/tfrench/Desktop/R projects/Personalysis/images/personalysis01_Andy.gif)
+
+
+### Angelique
+  
+![](/Users/tfrench/Desktop/R projects/Personalysis/images/personalysis01_Angelique.png)
+
+
+### Ari
+  
+![](/Users/tfrench/Desktop/R projects/Personalysis/images/personalysis01_Ari.gif)
+
+### Ashley
+  
+![](/Users/tfrench/Desktop/R projects/Personalysis/images/personalysis01_Ashley.png)
+
+### Brad
+  
+![](/Users/tfrench/Desktop/R projects/Personalysis/images/personalysis01_Brad.png)
+
+### Brian
+  
+![](/Users/tfrench/Desktop/R projects/Personalysis/images/personalysis01_Brian.png)
+
+  
+### Caleb
+  
+![](/Users/tfrench/Desktop/R projects/Personalysis/images/personalysis01_Caleb.gif)
+
+### Chris
+  
+![](/Users/tfrench/Desktop/R projects/Personalysis/images/personalysis01_Chris.png)
+
+### Chuck
+  
+![](/Users/tfrench/Desktop/R projects/Personalysis/images/personalysis01_Chuck.png)
+
+### Devendra
+  
+![](/Users/tfrench/Desktop/R projects/Personalysis/images/personalysis01_Devendra.png)
+
+
+### Funi
+  
+![](/Users/tfrench/Desktop/R projects/Personalysis/images/personalysis01_Funi.png)
+
+
+### Gino
+  
+![](/Users/tfrench/Desktop/R projects/Personalysis/images/personalysis01_Gino.gif)
+
+
+### Firouzeh
+  
+![](/Users/tfrench/Desktop/R projects/Personalysis/images/personalysis01_Firouzeh.gif)
+
+
+### Ford  
+![](/Users/tfrench/Desktop/R projects/Personalysis/images/personalysis01_Ford.gif)
+
+### Jacob
+  
+![](/Users/tfrench/Desktop/R projects/Personalysis/images/personalysis01_Jacob.gif)
+ 
+
+### Jake
+  
+![](/Users/tfrench/Desktop/R projects/Personalysis/images/personalysis01_Jake.gif)
+ 
+ 
+### Jason
+  
+![](/Users/tfrench/Desktop/R projects/Personalysis/images/personalysis01_Jason.png)
+
+ 
+### Jessica Q
+  
+![](/Users/tfrench/Desktop/R projects/Personalysis/images/personalysis01_JessicaQ.png)
+ 
+### Jessica S
+  
+![](/Users/tfrench/Desktop/R projects/Personalysis/images/personalysis01_JessicaS.png)
+ 
+### Jodi
+  
+![](/Users/tfrench/Desktop/R projects/Personalysis/images/personalysis01_Jodi.png)
+
+### Laurel
+  
+![](/Users/tfrench/Desktop/R projects/Personalysis/images/personalysis01_Laurel.gif)
+
+
+### Lizbeth
+  
+![](/Users/tfrench/Desktop/R projects/Personalysis/images/personalysis01_Lizbeth.gif)
+ 
+
+
+### Sarah
+  
+![](/Users/tfrench/Desktop/R projects/Personalysis/images/personalysis01_Sarah.gif)
+
+
+
+### Susan H 
+  
+![](/Users/tfrench/Desktop/R projects/Personalysis/images/personalysis01_SusanH.gif)
+
+### Susan P 
+  
+![](/Users/tfrench/Desktop/R projects/Personalysis/images/personalysis01_SusanP.gif)
+
+### Suzanne
+  
+![](/Users/tfrench/Desktop/R projects/Personalysis/images/personalysis01_Suzanne.gif)
+
+
+### Tom {.active}
+  
+![](/Users/tfrench/Desktop/R projects/Personalysis/images/personalysis01_tom.gif)
+ 
+### Others
+
+Others pending.
+![](/Users/tfrench/Desktop/R projects/Personalysis/images/puzzlepiece.gif)
+  
+## Personalysis Clustering: Homogeneity within Colors {.tabset  .tabset-fade }   
+   
+### <span style="color: darkred;">**Expedite**</span> 
+
+ 
+<span style="color: darkred;">**RED**</span> is motivated to **intitiate action** and **stay moving**. They stay focused on tasks and tangible outcomes.  They have high energy, intense focus, and a sense of urgency. Cluster results below devide individuals into 3 homogeneous groups: first at a high level among all Red scores combined and then within each of the Red sub-scores.
+
+
+*Column Clustering Tiers: Red (3 Cluster),  Contribution, Connection, Commitment & Names (avg. red)*
+
+```{r expidite, echo=FALSE}
+reds2 <- c(rep('#fc032c',4), rep('#f08d9f',33),rep('#f2e1e4',28)) 
+#collapsibleTree(test, c("r_cluster", "Name"), collapsed = F, root="Red", fontSize=14 )
+collapsibleTree(test %>% arrange(r_cluster, r1_cluster, r2_cluster, r3_cluster, Name_red), c("r_cluster","r1_cluster","r2_cluster","r3_cluster", "Name_red"), collapsed = F, root="All Expedite ",fill= reds2,fontSize=14, zoomable = FALSE)
+```
+  
+---  
+  
+### <span style="color: #195cf7;">**Expore**</span> 
+
+<span style="color: #195cf7;">**Blue**</span>  is motivated to **anticipate** the future and **create clarity**. They focus on context, purpose and potential impacts.  They are curious, innovative, and sensitive to subtleties. Cluster results below devide individuals into 3 homogeneous groups: first at a high level among all Blue scores combined and then within each of the Blue sub-scores. 
+
+*Column Clustering Tiers: Blue (3 Cluster),  Contribution, Connection, Commitment & Names (avg. blue)*
+
+```{r explore, echo=FALSE}
+blues2  <- c('#195cf7',rep('#195cf7',3), rep('#86a8f7',35),  rep('#dde2f0',28)) 
+collapsibleTree(test %>% arrange(b_cluster, b1_cluster, b2_cluster, b3_cluster, Name_blue), c("b_cluster","b1_cluster","b2_cluster","b3_cluster", "Name_blue"), collapsed = F, root=" ",fill= blues2 ,fontSize=14,zoomable = FALSE )
+
+```
+  
+---    
+  
+### <span style="color: green;">**Organize** </span> 
+  
+<span style="color: green;">**Green**</span> is motivated to **maintain stability** and **organization**. They focus on details, structure and predictability.  They are analytical, methodical, and systematic. Cluster results below devide individuals into 3 homogeneous groups: first at a high level among all Green scores combined and then within each of the Green sub-scores. 
+
+*Column Clustering Tiers: Green (3 Cluster),  Contribution, Connection, Commitment & Names (avg. green)*
+
+```{r Organize, echo=FALSE}
+
+greens2 <- c('#12a608',rep('#12a608',3), rep('#8efa87',34),  rep('#e2fae1',28)) 
+#collapsibleTree(test, c("g_cluster", "Name"), collapsed = F, root="Green", fontSize=14 )
+collapsibleTree(test %>% arrange(g_cluster, g1_cluster, g2_cluster, g3_cluster, Name_green), c("g_cluster","g1_cluster","g2_cluster","g3_cluster", "Name_green"), collapsed = F, root=" ",fill= greens2,fontSize=14, zoomable = FALSE )
+```
+  
+--- 
+  
+### <span style="color: GoldenRod;">**Collaborate**</span>
+  
+<span style="color: GoldenRod;">**YELLOW**</span> is motivated to **adapt** and be **flexible**. They focus on people and possibilites.  They attune to their environment and are highly responsive and optimistic.  Cluster results below devide individuals into 3 homogeneous groups: first at a high level among all Yellow scores combined and then within each of the Yellow sub-scores.
+
+*Column Clustering Tiers: Yellow (3 Cluster),  Contribution, Connection, Commitment & Names (avg. yellow)*
+
+```{r Collaborate, echo=FALSE}
+yellows2 <- c('#DAA520',rep('#DAA520',3), rep('#FFD700',36), rep('#FFFACD',28)) 
+collapsibleTree(test, c("y_cluster","y1_cluster","y2_cluster","y3_cluster", "Name_yellow"), collapsed = F, root=" ",fill= yellows2,fontSize=14,zoomable = FALSE )
+
+#collapsibleTree(test, c("all_1_cluster", "Name"), collapsed = F, root="Contribution"  ,fontSize=14 )
+#collapsibleTree(test, c("all_2_cluster", "Name"), collapsed = F, root="Connection"  ,fontSize=14 )
+#collapsibleTree(test, c("all_3_cluster", "Name"), collapsed = F, root="Commitment"  ,fontSize=14 )
+
+```
+
+
+---  
+    
+  
+  
+
+## Clifton Strength Profile - Top Five Strengths {.tabset  .tabset-fade }
+
+![](/Users/tfrench/Desktop/R projects/Personalysis/images/strength_finder.gif)
+
+### By Responder 
+    
+ **Top Five Strengths: By Responder**
+
+```{r Clifton Strength Profile1, echo=FALSE}
+  collapsibleTree(Personalysis %>% filter(Desc != 'NA') %>% arrange(Name, Desc, n), c( "Name","Desc", "n"), collapsed = T, root=" "  ,fontSize=14 )
+```
+
+
+### All Top Five Strengths 
+    
+
+ **All Top Five Strengths**
+```{r Clifton Strength Profile2, echo=FALSE}
+collapsibleTree(Personalysis %>% filter(Desc != 'NA') %>% arrange(Desc,Name), c("Desc", "Name"), collapsed = T, root=" "  , fontSize=14 )
+```
+
+
+### All Top Five Strengths - Ordered
+
+ **All Top Five Strengths - Ordered**
+```{r Clifton Strength Profile3, echo=FALSE}
+ collapsibleTree(Personalysis %>% filter(Desc != 'NA') %>% arrange(n, Desc,Name), c("n","Desc", "Name"), collapsed = T, root=" "  ,fontSize=14 )
+```

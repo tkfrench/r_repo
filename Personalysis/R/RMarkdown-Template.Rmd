@@ -1,0 +1,70 @@
+---
+title: "Template"
+author: "Enter Name"
+date: "Enter Date"
+output:
+  html_document:
+    css: ['css/style.css', 'css/custom.css']
+    df_print: paged
+    highlight: tango
+    includes:
+      before_body: www/header.html
+    number_sections: no
+    theme: cosmo
+    toc: yes
+    toc_depth: 5
+    toc_float:
+      collapsed: no
+      smooth_scroll: yes
+params:
+  primaryInput: "0"
+---
+
+<!-- Script below from https://stackoverflow.com/questions/46201753/rmarkdown-indentation-of-toc-items-in-html-output. -->
+<!-- Helps fix indentation problems in the table of contents (TOC). -->
+<script>
+$(document).ready(function() {
+  $items = $('div#TOC li');
+  $items.each(function(idx) {
+    num_ul = $(this).parentsUntil('#TOC').length;
+    $(this).css({'text-indent': num_ul * 10, 'padding-left': 0});
+  });
+
+});
+</script>
+
+<style type="text/css">
+div.main-container {
+  max-width: 100%;
+  margin-left: auto;
+  margin-right: 5%;
+}
+</style>
+
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+library(kableExtra)
+library(knitr)
+# include any other R packages here
+
+```
+
+
+<br/>
+
+
+# First Header
+
+<br/>
+
+## Second Header
+
+<br/>
+
+### Third Header
+
+<br/>

@@ -1,0 +1,38 @@
+INFO [2021-05-28 11:30:03] $x
+INFO [2021-05-28 11:30:03] list(set1, set2, set3)
+INFO [2021-05-28 11:30:03] 
+INFO [2021-05-28 11:30:03] $category.names
+INFO [2021-05-28 11:30:03] c("Set 1", "Set 2 ", "Set 3")
+INFO [2021-05-28 11:30:03] 
+INFO [2021-05-28 11:30:03] $filename
+INFO [2021-05-28 11:30:03] [1] "#14_venn_diagramm.png"
+INFO [2021-05-28 11:30:03] 
+INFO [2021-05-28 11:30:03] $output
+INFO [2021-05-28 11:30:03] [1] TRUE
+INFO [2021-05-28 11:30:03] 
+ERROR [2021-05-28 12:02:51] Unexpected parameter length for 'category'
+ERROR [2021-05-28 12:03:47] Unexpected parameter length for 'fill'
+ERROR [2021-05-28 12:36:28] Impossible: a1  <- area3 - a2 - a4 - a5 - a6 - a7 - a12 - a13 produces negative area
+ERROR [2021-05-28 12:36:47] Impossible: a1  <- area3 - a2 - a4 - a5 - a6 - a7 - a12 - a13 produces negative area
+ERROR [2021-05-28 12:46:36] Impossible: a1  <- area3 - a2 - a4 - a5 - a6 - a7 - a12 - a13 produces negative area
+ERROR [2021-05-28 12:47:10] Impossible: a5  <- n134 - a6 produces negative area
+ERROR [2021-05-28 12:47:41] Impossible: a5  <- n134 - a6 produces negative area
+ERROR [2021-05-28 12:48:38] Impossible: a5  <- n134 - a6 produces negative area
+ERROR [2021-05-28 12:49:28] Impossible: a5  <- n134 - a6 produces negative area
+ERROR [2021-05-28 12:50:13] Impossible: a5  <- n134 - a6 produces negative area
+ERROR [2021-05-28 12:51:08] Impossible: a5  <- n134 - a6 produces negative area
+ERROR [2021-05-28 12:54:14] Impossible: a5  <- n134 - a6 produces negative area
+ERROR [2021-05-28 12:55:50] Impossible: a5  <- n134 - a6 produces negative area
+ERROR [2021-05-28 12:56:11] Impossible: a14 <- area2 - a6 - a7 - a8 - a11 - a12 - a13 - a15 produces negative area
+ERROR [2021-05-28 13:47:05] Impossible: a14 <- area2 - a6 - a7 - a8 - a11 - a12 - a13 - a15 produces negative area
+ERROR [2021-05-28 14:17:11] Impossible: a1  <- area3 - a2 - a4 - a5 - a6 - a7 - a12 - a13 produces negative area
+ERROR [2021-05-28 14:18:20] Impossible: a1  <- area3 - a2 - a4 - a5 - a6 - a7 - a12 - a13 produces negative area
+ERROR [2021-05-28 14:21:05] Impossible: a1  <- area3 - a2 - a4 - a5 - a6 - a7 - a12 - a13 produces negative area
+ERROR [2021-05-28 14:24:28] Impossible: a1  <- area3 - a2 - a4 - a5 - a6 - a7 - a12 - a13 produces negative area
+ERROR [2021-05-28 14:28:46] Impossible: a13 <- n23 - a6 - a7 - a12 produces negative area
+ERROR [2021-05-28 14:29:46] Impossible: a1  <- area3 - a2 - a4 - a5 - a6 - a7 - a12 - a13 produces negative area
+ERROR [2021-05-28 14:30:20] Impossible: a1  <- area3 - a2 - a4 - a5 - a6 - a7 - a12 - a13 produces negative area
+ERROR [2021-05-28 14:32:07] Impossible: a1  <- area3 - a2 - a4 - a5 - a6 - a7 - a12 - a13 produces negative area
+ERROR [2021-05-28 14:36:03] Impossible: a1  <- area3 - a2 - a4 - a5 - a6 - a7 - a12 - a13 produces negative area
+ERROR [2021-05-28 14:48:04] Impossible: a1  <- area3 - a2 - a4 - a5 - a6 - a7 - a12 - a13 produces negative area
+ERROR [2021-05-28 14:48:23] Impossible: a1  <- area3 - a2 - a4 - a5 - a6 - a7 - a12 - a13 produces negative area
