@@ -1,0 +1,58 @@
+﻿FACILITY_KEY,FACILITY_CD,ORGANIZATION_ID,FACILITY_NM,REGION_CD,REGION_NM,STATE_CD,FACILITY_TYPE_CD,EPIC_FACILITY_CD,CLINICAL_REGION_CD,CLINICAL_REGION_NM,CLINICAL_SERVICE_AREA_CD,CLINICAL_SERVICE_AREA_NM,FACILITY_LINE1_ADDR,FACILITY_LINE2_ADDR,FACILITY_CITY_NM,ZIP_CD,HYPERION_CD,SOURCE_PROCESS_LEVEL_ID,DATA_SOURCE_ID,INSERT_DTS,UPDATE_DTS
+2,PAMC,1000,Providence Alaska Medical Center,AK,Alaska,AK,A,PAMC,AK,Alaska,AK,Alaska,3200 Providence Drive,,Anchorage,99508,198,20,21,03:51.4,03:51.4
+3,PKIMC,1000,Providence Kodiak Island Medical Center,AK,Alaska,AK,C,AKIMC,AK,Alaska,AK,Alaska,1915 East Rezanof Drive,,Kodiak,99615,189,12,21,03:51.4,03:51.4
+5,PSMC,1000,Providence Seward Medical Center,AK,Alaska,AK,A,SEWD,AK,Alaska,AK,Alaska,417 First Avenue,,Seward,99664,110,2,21,03:51.4,03:51.4
+6,PVMC,1000,Providence Valdez Medical Center,AK,Alaska,AK,A,VALDZ,AK,Alaska,AK,Alaska,911 Meals Avenue,,Valdez,99686,112,3,21,03:51.4,03:51.4
+7,PHCMC,1000,Providence Holy Cross Medical Center,SCA,Southern California,CA,A,CHC,SCA,Southern California,LACAL,Los Angeles,15031 Rinaldi Street,,Mission Hills,91345,720,112,21,03:51.4,03:51.4
+8,PLCM-SP,1000,Providence Little Company of Mary (San Pedro),SCA,Southern California,CA,A,CLS,SCA,Southern California,LACAL,Los Angeles,1300 West 7th Street,,San Pedro,90732,772,122,21,03:51.4,03:51.4
+10,PSJHC,1000,Providence Saint John's Health Center,SCA,Southern California,CA,A,CJN,SCA,Southern California,LACAL,Los Angeles,2121 Santa Monica Boulevard,,Santa Monica,90404,735,115,21,03:51.4,03:51.4
+11,PSJMC-B,1000,Providence St. Joseph Medical Center (Burbank),SCA,Southern California,CA,A,CSJ,SCA,Southern California,LACAL,Los Angeles,501 S. Buena Vista St.,,Burbank,91505,710,110,21,03:51.4,03:51.4
+16,PHRMH,1000,Providence Hood River Memorial Hospital,OR,Oregon,OR,C,OHR,OR,Oregon,OR,Oregon,810 12th St.,,Hood River,97031,560,95,21,03:51.4,03:51.4
+18,PMMC,1000,Providence Medford Medical Center,OR,Oregon,OR,A,OMD,OR,Oregon,OR,Oregon,1111 Crater Lake Avenue,,Medford,97504,590,99,21,03:51.4,03:51.4
+22,PSH,1000,Providence Seaside Hospital,OR,Oregon,OR,C,OSS,OR,Oregon,OR,Oregon,725 South Wahanna Road,,Seaside,97138,510,89,21,03:51.4,03:51.4
+33,SMCCH,1000,Swedish Medical Center Cherry Hill,PS,Puget Sound,WA,A,WASSCHILL,SHS,Swedish,SHS,Swedish,500 17th Avenue,,Seattle,98122,220,25,21,03:51.4,03:51.4
+43,PSMMC,1000,Providence St. Mary Medical Center,WA-MT,Washington - Montana,WA,A,WSM,WA-MT,Washington/Montana,SEWA,Southeast Washington,401 West Poplar Street,,Walla Walla,99362,325,39,21,03:51.4,03:51.4
+48,PSPH-M,1000,Providence St. Patrick Hospital (Missoula),WA-MT,Washington - Montana,MT,A,MSP,WA-MT,Washington/Montana,WMT,Western Montana,500 West Broadway,,Missoula,59802,460,70,21,03:51.4,03:51.4
+55,SHM,5000,Children's Hospital of Orange County,SCA,Southern California,CA,A,,SCA,Southern California,OCAL,Orange HD,1201 W LaVeta Ave,,Orange,92868,,-1,21,03:51.4,03:51.4
+60,TVM,5000,Covenant Hospital Plainview,TX-NM,Texas - New Mexico,TX,A,,TX-NM,Texas/New Mexico,TXNM,Texas/New Mexico,2601 Dimmit Road,,Plainview,79072,,-1,21,03:51.4,03:51.4
+15,KRMC,1000,Kadlec Regional Medical Center,WA-MT,Washington - Montana,WA,A,WAEKMCRMC,WA-MT,Washington/Montana,Kadlec,Kadlec,888 Swift Blvd.,,Richland,99352,320,38,21,03:51.4,03:51.4
+27,PSHMC,1000,Providence Sacred Heart Medical Center,WA-MT,Washington - Montana,WA,A,WSH,WA-MT,Washington/Montana,PHC,Providence Health Care,101 West 8th Avenue,,Spokane,99204,345,48,21,03:51.4,03:51.4
+68,SJE,5000,St. Joseph Hospital (Eureka),NCA,Northern California,CA,A,,NCA,Northern California,NOCAL,Northern California,2700 Dolbeer Street,,Eureka,95501,,-1,21,03:51.4,03:51.4
+25,PHFH,1000,Providence Holy Family Hospital,WA-MT,Washington - Montana,WA,A,WHF,WA-MT,Washington/Montana,PHC,Providence Health Care,5633 North Lidgerwood Street,,Spokane,99208,365,55,21,03:51.4,03:51.4
+42,PRMCE,1000,Providence Regional Medical Center Everett,WA-MT,Washington - Montana,WA,A,WEV,WA-MT,Washington/Montana,NWWA,Northwest Washington,1321 Colby Avenue,,Everett,98201,316,37,21,03:51.4,03:51.4
+47,PSJMC-P,1000,Providence St. Joseph Medical Center (Polson),WA-MT,Washington - Montana,MT,C,MSJ,WA-MT,Washington/Montana,WMT,Western Montana,6 13th Avenue East,,Polson,59860,465,72,21,03:51.4,03:51.4
+71,SMMC,5000,St. Mary Medical Center (Apple Valley),SCA,Southern California,CA,A,CATCYMSMM,SCA,Southern California,OCAL,Orange HD,18300 Highway 18,,Apple Valley,92307,830,139,21,03:51.4,03:51.4
+65,QVH,5000,Queen of the Valley Medical Center,NCA,Northern California,CA,A,,NCA,Northern California,NOCAL,Northern California,1000 Trancas Street,,Napa,94558,,-1,21,03:51.4,03:51.4
+66,RMH,5000,Redwood Memorial Hospital,NCA,Northern California,CA,A,,NCA,Northern California,NOCAL,Northern California,3300 Renner Drive,,Fortuna,95540,,-1,21,03:51.4,03:51.4
+64,PVH,5000,Petaluma Valley Hospital,NCA,Northern California,CA,A,,NCA,Northern California,NOCAL,Northern California,400 North McDowell Blvd,,Petaluma,94954,,-1,21,03:51.4,03:51.4
+28,PSJH-C,1000,Providence St. Joseph's Hospital (Chewelah),WA-MT,Washington - Montana,WA,C,WSJ,WA-MT,Washington/Montana,PHC,Providence Health Care,500 East Webster,,Chewelah,99109,375,57,21,03:51.4,03:51.4
+63,MHLB,5000,Mission Hospital Laguna Beach,SCA,Southern California,CA,A,CATCMLLBHOS,SCA,Southern California,OCAL,Orange HD,31872 Coast Hwy,,Laguna Beach,92651,825,138,21,03:51.4,03:51.4
+70,SJF,5000,St. Jude Medical Center (Fullerton),SCA,Southern California,CA,A,CATCFMSJM,SCA,Southern California,OCAL,Orange HD,101 E. Valencia Mesa Dr,,Fullerton,92835,820,137,21,03:51.4,03:51.4
+57,TCM,5000,Covenant Medical Center,TX-NM,Texas - New Mexico,TX,A,,TX-NM,Texas/New Mexico,TXNM,Texas/New Mexico,3615 19th Street,,Lubbock,79410,,-1,21,03:51.4,03:51.4
+67,SRM,5000,Santa Rosa Memorial Hospital,NCA,Northern California,CA,A,,NCA,Northern California,NOCAL,Northern California,1165 Montgomery Drive,,Santa Rosa,95405,,-1,21,03:51.4,03:51.4
+32,SMCB,1000,Swedish Medical Center Ballard,PS,Puget Sound,WA,A,WASBALLARD,SHS,Swedish,SHS,Swedish,5300 Tallman Avenue NW,,Seattle,98107,215,24,21,03:51.4,03:51.4
+94,TXWTGSCHGSH,5000,Covenant Grace Surgical Hospital,TX-NM,Texas - New Mexico,TX,A,TXWTGSCHGSH,TX-NM,Texas/New Mexico,TXNM,Texas/New Mexico,7509 Marsha Sharp Fwy,,Lubbock,79407,3615,140,21,03:51.4,03:51.4
+21,PPMC,1000,Providence Portland Medical Center,OR,Oregon,OR,A,OPH,OR,Oregon,OR,Oregon,4805 NE Glisan Street,,Portland,97213,522,90,21,03:51.4,03:51.4
+26,PMCH,1000,Providence Mount Carmel Hospital,WA-MT,Washington - Montana,WA,C,WMC,WA-MT,Washington/Montana,PHC,Providence Health Care,982 East Columbia Avenue,,Colville,99114,370,56,21,03:51.4,03:51.4
+73,SJHHNB,5000,"Hoag Hospital, Newport Beach",SCA,Southern California,CA,A,,SCA,Southern California,OCAL,Orange HD,1 Hoag Dr,,Newport Beach,92663,,-1,21,03:51.4,03:51.4
+69,SJO,5000,St. Joseph Hospital (Orange),SCA,Southern California,CA,A,CATCJOSJH,SCA,Southern California,OCAL,Orange HD,1100 West Stewart Dr,,Orange ,92868,815,136,21,03:51.4,03:51.4
+61,TTM,5000,Covenant Specialty Hospital,TX-NM,Texas - New Mexico,TX,A,,TX-NM,Texas/New Mexico,TXNM,Texas/New Mexico,3815 20th Street,,Lubbock,79410,,-1,21,03:51.4,03:51.4
+58,TPM,5000,Covenant Children's Hospital,TX-NM,Texas - New Mexico,TX,A,,TX-NM,Texas/New Mexico,TXNM,Texas/New Mexico,4002 24th St,,Lubbock,79410,,-1,21,03:51.4,03:51.4
+59,TLM,5000,Covenant Hospital Levelland,TX-NM,Texas - New Mexico,TX,A,,TX-NM,Texas/New Mexico,TXNM,Texas/New Mexico,1900 College Avenue,,Levelland,79336,,-1,21,03:51.4,03:51.4
+93,STELIAS,1000,St. Elias Specialty Hospital,AK,Alaska,AK,A,CCASH,AK,Alaska,AK,Alaska,4800 Cordova St,,Anchorage,99503,118,5,21,03:51.4,03:51.4
+34,SMCE,1000,Swedish Medical Center Edmonds,WA-MT,Washington - Montana,WA,A,WASEDMONDS,SHS,Swedish,SHS,Swedish,21601 76th Avenue West,,Edmonds,98026,230,27,21,03:51.4,03:51.4
+37,SMCI,1000,Swedish Medical Center Issaquah,PS,Puget Sound,WA,A,WASISSAQUAH,SHS,Swedish,SHS,Swedish,751 NE Blakely Drive,,Issaquah,98029,225,26,21,03:51.4,03:51.4
+9,PLCM-T,1000,Providence Little Company of Mary (Torrance),SCA,Southern California,CA,A,CLT,SCA,Southern California,LACAL,Los Angeles,4101 Torrance Blvd.,,Torrance,90503,762,120,21,03:51.4,03:51.4
+12,PTMC,1000,Providence Tarzana Medical Center,SCA,Southern California,CA,A,CTZ,SCA,Southern California,LACAL,Los Angeles,18321 Clark Street,,Tarzana,91356,725,113,21,03:51.4,03:51.4
+19,PNMC,1000,Providence Newberg Medical Center,OR,Oregon,OR,A,ONB,OR,Oregon,OR,Oregon,1001 Providence Drive,,Newberg,97132,570,97,21,03:51.4,03:51.4
+24,PWFMC,1000,Providence Willamette Falls Medical Center,OR,Oregon,OR,A,OWF,OR,Oregon,OR,Oregon,1500 Division St.,,Oregon City,97045,535,92,21,03:51.4,03:51.4
+23,PSVMC,1000,Providence St. Vincent Medical Center,OR,Oregon,OR,A,OSV,OR,Oregon,OR,Oregon,9205 SW Barnes Road,,Portland,97225,530,91,21,03:51.4,03:51.4
+17,PMH,1000,Providence Milwaukie Hospital,OR,Oregon,OR,A,OMW,OR,Oregon,OR,Oregon,10150 SE 32nd Avenue,,Milwaukie,97222,550,94,21,03:51.4,03:51.4
+41,PCH,1000,Providence Centralia Hospital,WA-MT,Washington - Montana,WA,A,WCH,WA-MT,Washington/Montana,SWWA,Southwest Washington,914 South Scheuber Rd,,Centralia,98531,340,46,21,03:51.4,03:51.4
+35,SMCFH,1000,Swedish Medical Center First Hill,PS,Puget Sound,WA,A,WASFIRSTHILL,SHS,Swedish,SHS,Swedish,747 Broadway,,Seattle,98122,210,23,21,03:51.4,03:51.4
+62,MHR,5000,Mission Hospital Mission Viejo,SCA,Southern California,CA,A,CATCMMMVH,SCA,Southern California,OCAL,Orange HD,27700 Medical Center Rd,,Mission Viejo,92691,825,138,21,03:51.4,03:51.4
+72,SJHHI,5000,"Hoag Hospital, Irvine",SCA,Southern California,CA,A,,SCA,Southern California,OCAL,Orange HD,16200 Sand Canyon Ave,,Irvine ,92618,,-1,21,03:51.4,03:51.4
+44,PSPH-O,1000,Providence St. Peter Hospital (Olympia),WA-MT,Washington - Montana,WA,A,WSP,WA-MT,Washington/Montana,SWWA,Southwest Washington,413 Lilly Rd NE,,Olympia,98506,330,41,21,03:51.4,03:51.4
+500,SMCMC,1000,Swedish Medical Center Mill Creek,WA-MT,Washington - Montana,WA,C,MC,SHS,Swedish,SHS,Swedish,,,Everett,98208,235,28,21,03:55.1,03:55.1
+501,SMCR,1000,Swedish Medical Center Redmond,WA-MT,Washington - Montana,WA,C,REDMD,SHS,Swedish,SHS,Swedish,,,Redmond,98052,240,29,21,03:55.6,03:55.6
+502,MHR CH,5000,CHOC at Mission Hospital,SCA,Southern California,CA,A,,SCA,Southern California,OCAL,Orange HD,,,Mission Viejo,92691,,,21,03:56.2,03:56.2

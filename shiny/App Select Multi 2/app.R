@@ -2,31 +2,22 @@
 library(shinyWidgets)
 library(tidyverse)
 
-a_df <- tibble(
-  var_one = c("hadley", "charlotte", "rene", "raymond"),
-  var_two = c("mutate", "filter", "slice", "spread"),
-  var_three = c("an apple", "a pipe", "a cocktail", "a dog"),
-  var_four = c("with", "without", "thanks", "out of"),
-  var_five = c("tidyr", "magrittr", "purrr", "dplyr")
-)
+DIM_FACILITY <- read_csv("../../data/DIM_FACILITY.csv")
 
-ex_df <- expand.grid(a_df) # create a df with the 64 combinaisons
-
-tib <- as_tibble(sample_n(ex_df, 40))
 
 shinyApp(
   ui = pageWithSidebar(
-    headerPanel("Painting 8"),
+    headerPanel("Facility Selection"),
     sidebarPanel(
       selectizeGroupUI(
         id = "my-filters",
         inline = FALSE,
         params = list(
-          var_one = list(inputId = "var_one", title = "Select Service Area", placeholder = 'select'),
-          var_two = list(inputId = "var_two", title = "Select Region", placeholder = 'select'),
-          var_three = list(inputId = "var_three", title = "Select Facility", placeholder = 'select'),
-          var_four = list(inputId = "var_four", title = "Select Specialty", placeholder = 'select'),
-          var_five = list(inputId = "var_five", title = "Select Provider", placeholder = 'select')
+          STATE_CD                 = list(inputId = "STATE_CD", title = "Sate", placeholder = 'select'),
+          CLINICAL_SERVICE_AREA_NM = list(inputId = "CLINICAL_SERVICE_AREA_NM", title = "Clinical Sercive Area", placeholder = 'select'),
+          CLINICAL_REGION_NM       = list(inputId = "CLINICAL_REGION_NM", title = "Clinical Region", placeholder = 'select'),
+          FACILITY_NM              = list(inputId = "FACILITY_NM", title = "Facility", placeholder = 'select'),
+          FACILITY_TYPE_CD         = list(inputId = "FACILITY_TYPE_CD", title = "Facility Type", placeholder = 'select')
         )
       )
     ),
@@ -41,8 +32,9 @@ shinyApp(
     res_mod <- callModule(
       module = selectizeGroupServer,
       id = "my-filters",
-      data = tib,
-      vars = c("var_one", "var_two", "var_three", "var_four", "var_five")
+      data = DIM_FACILITY,
+      vars = c("STATE_CD", "CLINICAL_SERVICE_AREA_NM", 
+               "CLINICAL_REGION_NM", "FACILITY_NM", "FACILITY_TYPE_CD")
     )
     
     output$table <- renderTable({
